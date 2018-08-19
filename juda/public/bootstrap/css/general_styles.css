@@ -1,0 +1,168 @@
+
+
+.bg-main-paper{
+    background: #f4f4f4;
+}
+
+.bg-main-red{
+    background: rgb(236,101,91);
+}
+
+.bg-main-blue{
+    background: rgb(101,169,221);
+}
+
+.bg-main-yellow{
+    background: rgb(255,222,115);
+}
+
+.bg-main-body{
+    background: #f2f2f2;
+}
+
+.text-main-red{
+    color: rgb(236,101,91);
+}
+
+.text-main-blue{
+    color: rgb(101,169,221);
+}
+
+.text-main-yellow{
+    color: rgb(255,222,115);
+}
+
+
+.navbar-main-yellow{
+    font-size: 1.2rem;
+    color: rgb(255,222,115);
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.navbar-main-yellow:hover{
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: white;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.navbar-main-important-yellow{
+    font-size: 1.2rem;
+    color: #232323;
+    font-weight: bold;
+    margin-right: 1rem;
+    padding: 5px;
+    background: rgb(255,222,115);
+    border-radius: 0.25rem;
+    
+}
+
+.navbar-main-important-yellow:hover{
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #232323;
+    font-weight: bold;
+    margin-right: 1rem;
+    padding: 5px;
+    background: white;
+    border-radius: 0.25rem;
+    
+}
+
+.navbar-main-red{
+    font-size: 1.2rem;
+    color: rgb(236,101,91);
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.navbar-main-red:hover{
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: white;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.navbar-main-important-red{
+    font-size: 1.2rem;
+    color: #232323;
+    font-weight: bold;
+    margin-right: 1rem;
+    padding: 5px;
+    background: rgb(236,101,91);
+    border-radius: 0.25rem;
+    
+}
+
+.navbar-main-important-red:hover{
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #232323;
+    font-weight: bold;
+    margin-right: 1rem;
+    padding: 5px;
+    background: white;
+    border-radius: 0.25rem;
+    
+}
+
+.btn-yellow{
+    font-size: 1.2rem;
+    color: #232323;
+    font-weight: bold;
+    padding: 5px;
+    background: rgb(255,222,115);
+    border-color: rgb(255,222,115);
+}
+
+.btn-yellow:hover {
+  color: #232323;
+  background-color: white;
+  border-color: white;
+}
+
+.btn-yellow:focus, .btn-yellow.focus {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+
+.a-yellow{
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: rgb(255,222,115);
+}
+
+.a-yellow:hover{
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+}
+
+.a-red{
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: rgb(236,101,91);
+}
+
+.a-red:hover{
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000;
+}
+
+.btn-search {
+
+            background-color: Transparent;
+            background-repeat:no-repeat;
+            border: none;
+            cursor:pointer;
+            overflow: hidden;
+
+        }

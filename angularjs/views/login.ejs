@@ -1,0 +1,108 @@
+<!-- index.html -->
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="scotchTodo">
+
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Optimize mobile viewport -->
+
+    <title>Login</title>
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <!-- load bootstrap -->
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <!-- load jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <!-- load angular -->
+    <script src="dropzone.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/css/fileinput.min.css" media="all" rel="stylesheet"
+        type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/fileinput.min.js"></script>
+    <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
+
+    <style>
+        html {
+            overflow-y: scroll;
+        }
+
+        body {
+            padding-top: 50px;
+        }
+
+        #todo-list {
+            margin-bottom: 30px;
+        }
+    </style>
+
+</head>
+<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+
+<body ng-controller="mainController">
+    <div class="container">
+
+        <!-- HEADER AND TODO COUNT -->
+        <div class="jumbotron text-center">
+            <h1>Login with Passport </h1>
+        </div>
+
+        <!-- TODO LIST -->
+        <div id="todo-list" class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+            </div>
+        </div>
+
+        <!-- FORM TO CREATE TODOS -->
+        <div id="todo-form" class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <form>
+                    <div class="form-group">
+                        <!-- BIND THIS VALUE TO user.username IN ANGULAR -->
+                        <input type="text" class="form-control input-lg text-center" placeholder="Nombre" ng-model="userNew.nombre">
+                    </div>
+                    <div class="form-group">
+                        <!-- BIND THIS VALUE TO user.username IN ANGULAR -->
+                        <input type="text" class="form-control input-lg text-center" placeholder="Apellido" ng-model="userNew.apellido">
+                    </div>
+                    <div class="form-group">
+                        <!-- BIND THIS VALUE TO user.username IN ANGULAR -->
+                        <input type="text" class="form-control input-lg text-center" placeholder="Username" ng-model="userNew.username">
+                    </div>
+                    <!-- BIND THIS VALUE TO user.password IN ANGULAR -->
+                    <div class="form-group">
+                        <input type="password" class="form-control input-lg text-center" placeholder="Password" ng-model="userNew.password">
+                    </div>
+                    <!-- createToDo() WILL CREATE NEW TODOS -->
+                    <button type="submit" class="btn btn-primary btn-lg" ng-click="create()">Register</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- FORM TO CREATE TODOS -->
+        <div id="todo-form" class="row">
+            <div class="col-sm-8 col-sm-offset-2 text-center">
+                <form>
+                    <div class="form-group">
+                        <!-- BIND THIS VALUE TO user.username IN ANGULAR -->
+                        <input type="text" class="form-control input-lg text-center" placeholder="Username" ng-model="user.username">
+                    </div>
+                    <!-- BIND THIS VALUE TO user.password IN ANGULAR -->
+                    <div class="form-group">
+                        <input type="password" class="form-control input-lg text-center" placeholder="Password" ng-model="user.password">
+                    </div>
+                    <!-- createToDo() WILL CREATE NEW TODOS -->
+                    <button type="submit" class="btn btn-primary btn-lg" ng-click="login()">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="js/login.js"></script>
+</body>
+
+</html>

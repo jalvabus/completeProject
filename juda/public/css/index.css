@@ -1,0 +1,122 @@
+.bg-yellow {
+    background-color: #EBCE1F;
+}
+
+.pad-navbar {
+    padding: 2rem 3.5rem;
+}
+
+.bg-black {
+    background-color: #28333C;
+    color: white;
+}
+
+.title {
+    /*font-family: Avenir;*/
+    line-height: 40px;
+    display: inline-block;
+    margin-bottom: 70px;
+    position: relative;
+    color: #C6C6C6;
+    font-size: 50px;
+    letter-spacing: 2px;
+}
+
+.title::after {
+    border: 3px solid #EDCD1F;
+    bottom: -20px;
+    content: '';
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    width: 40%;
+}
+
+.text {
+    font-family: Helvetica Light;
+}
+
+/** Container holding the image and the text */
+
+.container-img {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+/* Centered text */
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    right: 10%;
+    transform: translate(5%, -50%);
+}
+
+.min {
+    font-size: 55px;
+    background-color: #28333C;
+}
+
+#inicio {
+    background: url('../images/inicio-gas.jpg') no-repeat center center fixed;
+    height: 100vh;
+    padding-top: 25%;
+}
+
+#inicio_back {
+    background: url('../images/inicio-gas.jpg') no-repeat center center fixed;
+    height: 100vh;
+    padding-top: 25%;
+}
+
+.img {
+    width: 50%;
+    height: 50%;
+}
+
+@media (max-width: 575px) {
+    .pad-navbar {
+        padding: 0.5rem 1rem;
+        padding-top: 1rem;
+        padding-bottom: 2rem;
+    }
+    .min {
+        font-size: 25px;
+    }
+    .img-top {
+        height: 100%;
+        width: 100%;
+        max-height: 80%;
+    }
+    #inicio {
+        padding-top: 50%;
+    }
+}
+
+.btn-primary {
+    color: #28333C;
+    background-color: #EBCE1F;
+    border-color: #868e96;
+}
+
+.panel-heading {
+    border-top-left-radius: inherit; 
+    border-top-right-radius: inherit;
+}
+
+.btn-primary:hover {
+    color: black;
+    background-color: yellow;
+    border-color: #868e96;
+}
+
+.bg-lightyellow {
+    background-color: lightyellow;
+}
+
+.bg-lightgray {
+    background-color: lightgray;
+}

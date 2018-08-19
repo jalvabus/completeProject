@@ -1,0 +1,20 @@
+{
+    "database": {
+        "db": "mongodb://localhost/ContratistasApp"
+    },
+    "port": "8000",
+    "domain": "http://localhost:8000",
+    "cryptKey": "",
+    "smtp": {
+        "host": "smtp.gmail.com",
+        "port": 465,
+        "secure": true,
+        "auth": {
+            "user": "ancientechnologies@gmail.com",
+            "pass": "091701017427"
+        }
+    },
+    "routes":{
+        "user": "/api/user"
+    }
+}

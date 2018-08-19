@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="indexApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Inicio</title>
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="css/index.css">
+
+    <!-- Angular -->
+    <script src="js/angular/angular.js"></script>
+</head>
+
+<body ng-controller="indexController">
+    <div class="">
+        <nav class="navbar navbar-expand-lg navbar-light bg-yellow fixed-top">
+            <a class="navbar-brand pad-navbar" href="#">
+                <h4>EL LEON DE JUDA</h4>
+            </a>
+            <button class="navbar-toggler pad-navbar" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse bg-black pad-navbar justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item pl-5">
+                        <a class="nav-link text-white" href="#inicio">INICIO
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item pl-5">
+                        <a class="nav-link text-white" href="#servicios">SERVICIOS</a>
+                    </li>
+                    <li class="nav-item pl-5">
+                        <a class="nav-link text-white" href="#nosotros">NOSOTROS</a>
+                    </li>
+                    <li class="nav-item pl-5">
+                        <a class="nav-link text-white" href="#">PROYECTOS</a>
+                    </li>
+                    <li class="nav-item pl-5">
+                        <a class="nav-link text-white" href="#">CONTACTO</a>
+                    </li>
+                    <li class="nav-item pl-5">
+                        <a class="nav-link text-white" data-toggle="modal" data-target="#exampleModal">ADMIN</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade pt-5" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header panel-heading bg-lightyellow">
+                    <h5 class="modal-title panel-heading" id="exampleModalLabel">Inicio de Sesión Administrador</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/login" method="GET">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="">Usuario</label>
+                            <input ng-model="user.usuario" required type="text" class="form-control" placeholder="Nombre de Usuario">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Cotraseña</label>
+                            <input ng-model="user.password" required type="text" class="form-control" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" ng-click="login()" type="submit" class="btn btn-primary btn-block">Iniciar Sesion</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="inicio">
+        <div class="container-img">
+            <div class="centered">
+                <h1 class="min">
+                    Publicidad Imagen y Remodelación El León de Judá
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div id="servicios" class="pt-5">
+        <div class="text-center">
+            <h1 class="title">SERVICIOS</h1>
+        </div>
+        <div class="container">
+            <div class="row align-items-center">
+                <% for(var i = 0; i < 5; i ++) { %>
+                    <div class="card col-sm-12 col-lg-3 align-items-center" style="padding-left: 0; padding-right: 0; margin: 5px;">
+                        <img class="card-img-top img" src="images/Imagen3.png" alt="Responsive image">
+                        <div class="card-body bg-light">
+                            <h4>Texto</h4>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                    </div>
+                    <% } %>
+            </div>
+        </div>
+    </div>
+
+    <div id="nosotros" class="pt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-lg-6 bg-light">
+                    <div class="text-center">
+                        <h1 class="title pt-3">NOSOTROS</h1>
+                    </div>
+                    <p>Esta empresa se creó en el año 2011, en Tecámac, Edo. De México., con la finalidad de dar atención a
+                        las estaciones de Servicio (Gasolineras) En diversas zonas, ya que el técnico que inicio tiene una
+                        experiencia de 15 años en el ramo. Somos una empresa dedicada al Suministro y colocación de faldones
+                        en lona y panel de aluminio, Falso Plafón Metalico, Forro de Columnas, Lonas para Faldón, Tabletas
+                        y logo Símbolo, Señalizaciones y Anuncios en General, Gabinetes en Aluminio y Estructuras, Remodelaciones,
+                        así como suministro e instalación de Tabletas electrónicas y mantenimientos pintura, sistema electrónico
+                        en tabletas y faldones, lavado de faldones y plafones</p>
+
+                </div>
+                <div id="inicio_back" class="col-sm-12 col-lg-6">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clientes">
+
+    </div>
+
+    <div id="proyectos" class="pt-5">
+        <div class="text-center">
+            <h1 class="title">PROYECTOS</h1>
+        </div>
+    </div>
+
+    <div id="contacto">
+        <div class="text-center" class="pt-5">
+            <h1 class="title">CONTACTO</h1>
+        </div>
+        <div class="container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d957.9021232861725!2d-98.9791130811654!3d19.682867528105238!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ed05e1818589%3A0x3447301ffa4c8268!2sPrivada+Vicenza%2C+Villa+del+Real%2C+55749+Ojo+de+Agua%2C+M%C3%A9x.!5e0!3m2!1ses!2smx!4v1533841180336"
+                width="100%" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/popper.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
