@@ -8,9 +8,9 @@ exports.registrarAdministrador = (req, res) => {
     var usuario = new Usuario({
         nombre: req.body.nombre,
         apellidos: req.body.apellidos,
-        rol: 'admin',
         correo_electronico: req.body.correo_electronico,
-        usuario: req.body.usuario
+        usuario: req.body.usuario,
+        rol: req.body.rol
     });
 
     bcrypt.genSalt(10)
@@ -25,13 +25,21 @@ exports.registrarAdministrador = (req, res) => {
 }
 
 exports.verAdministradores = (req, res) => {
+    /*
     Usuario.find({ rol: 'admin' })
         .exec()
         .then((usuarios) => {
-            res.json(usuarios);
+            res.json({usuarios : usuarios});
+        })
+        */
+
+    Usuario.find()
+        .exec()
+        .then((usuarios) => {
+            res.json({ usuarios: usuarios });
         })
 }
 
 exports.getUsuario = (req, res) => {
-    
+
 }

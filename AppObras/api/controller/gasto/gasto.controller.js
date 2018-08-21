@@ -3,6 +3,8 @@ var Obra = require('../obra/obra.model');
 var CuentaBancaria = require('../cuenta-bancaria/cuenta-bancaria.model');
 
 exports.registrarGasto = (req, res) => {
+    console.log(req.body);
+    
     var gasto = new Gasto({
         descripcion: req.body.descripcion,
         proveedor: req.body.proveedor,
@@ -29,6 +31,7 @@ exports.registrarGasto = (req, res) => {
 
         })
     });
+    
 }
 
 exports.verReporte = (req, res) => {

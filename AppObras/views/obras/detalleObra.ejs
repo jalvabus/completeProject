@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="obraDetApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/datepicker3.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+    <!--Custom Font-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <script src="../js/public/jquery.js"></script>
+    <script src="../js/public/angular.js"></script>
+    <script src="../js/public/sweet.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/fileinput.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body ng-controller="obraDetController">
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <span>App</span>Contratistas</a>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <% include ../partials/navegacion.ejs %>
+        <!--/.sidebar-->
+
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li class="">Inicio</li>
+                    <li class="active">Obras</li>
+                    <li class="active">Detalle Obra</li>
+                </ol>
+            </div>
+            <!--/.row-->
+
+            <div class="row" style="padding-top: 25px;">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Obra
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <table class="table table-bordered table-striped table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Precio del contrato</th>
+                                                        <th>Anticipo</th>
+                                                        <th ng-if="obra.anticipoPagado === false">Pagar anticipo</th>
+                                                        <th>Pagado</th>
+                                                        <th>Amortización de anticipo</th>
+                                                        <th>Fondo de garantía</th>
+                                                        <th>Total Gastos</th>
+                                                        <th>Fecha de Inicio</th>
+                                                        <th>Fecha Límite</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>{{ obra.nombre }}</td>
+                                                        <td>$ {{ obra.precio_contrato | number }}</td>
+                                                        <td>$ {{ (obra.precio_contrato * (obra.porcentaje_anticipo/100)) | number
+                                                            }}
+                                                        </td>
+                                                        <td ng-if="obra.anticipoPagado === false">
+                                                            <button class="btn btn-sm btn-primary" ng-click="pagarAnticipo()">Pagar</button>
+                                                        </td>
+                                                        <td>$ {{ pagado | number }}</td>
+                                                        <td>$ {{ obra.amortizacion_anticipo | number }}</td>
+                                                        <td>$ {{ obra.fondo_garantia | number }}</td>
+                                                        <td>$ {{ totalGastos | number}}</td>
+                                                        <td>{{ obra.fecha_inicio | date }}</td>
+                                                        <td>{{ obra.fecha_limite | date }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Registrar Estimacion
+                        </div>
+                        <input type="text" id="idObra" value="<%= obra %>">
+                        <div class="panel-body">
+                            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal ">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label class="col-md-12 form-control-label" for="nombre">Nombre de estimación</label>
+                                            <div class="col-md-12">
+                                                <input id="nombre" name="nombre" class="form-control" placeholder="Nombre de estimación" ng-model="estimacion.nombre">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label class="col-md-12 form-control-label" for="monto">Monto</label>
+                                            <div class="col-md-12">
+                                                <input type="number" ng-change="actualizarValoresEstimacion()" id="monto" name="monto" class="form-control" placeholder="Monto"
+                                                    ng-model="estimacion.monto">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label class="col-md-12 form-control-label" for="monto">Conceptos extras</label>
+                                            <div class="col-md-12">
+                                                <input type="number" ng-change="actualizarValoresEstimacion()" id="conceptos_extras" name="conceptos_extras" class="form-control"
+                                                    placeholder="Conceptos extras" ng-model="estimacion.conceptos_extras">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-md-12 form-control-label" for="monto_conceptos_extras">Monto + Conceptos extras</label>
+                                                <div class="col-md-12">
+                                                    <input type="number" disabled ng-change="actualizarValoresEstimacion()" id="monto_conceptos_extras" name="monto_conceptos_extras"
+                                                        class="form-control" placeholder="Monto + Conceptos extras" ng-model="estimacion.monto_conceptos_extras">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-md-12 form-control-label" for="amortizacion_anticipo">Amortización de Anticipo</label>
+                                                <div class="col-md-12">
+                                                    <input type="number" disabled ng-change="actualizarValoresEstimacion()" id="amortizacion_anticipo" name="amortizacion_anticipo"
+                                                        class="form-control" placeholder="Amortización de Anticipo" ng-model="estimacion.amortizacion_anticipo">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="col-md-12 form-control-label" for="fondo_garantia">Fondo de garantía</label>
+                                                <div class="col-md-12">
+                                                    <input type="number" disabled ng-change="actualizarValoresEstimacion()" id="fondo_garantia" name="fondo_garantia" class="form-control"
+                                                        placeholder="Fondo de garantía" ng-model="estimacion.fondo_garantia">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label class="col-md-12 form-control-label" for="subtotal">Subtotal</label>
+                                            <div class="col-md-12">
+                                                <input type="number" disabled ng-change="actualizarValoresEstimacion()" id="subtotal" name="subtotal" class="form-control"
+                                                    placeholder="subtotal" ng-model="estimacion.subtotal">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label class="col-md-12 form-control-label" for="iva">IVA</label>
+                                            <div class="col-md-12">
+                                                <input type="number" disabled ng-change="actualizarValoresEstimacion()" id="iva" name="iva" class="form-control" placeholder="iva"
+                                                    ng-model="estimacion.iva">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label class="col-md-12 form-control-label" for="total">Total</label>
+                                            <div class="col-md-12">
+                                                <input type="number" disabled ng-change="actualizarValoresEstimacion()" id="total" name="total" class="form-control" placeholder="Total"
+                                                    ng-model="estimacion.total">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12 form-control-label" for="fecha_inicio">Fecha de Inicio</label>
+                                    <div class="col-md-12">
+                                        <input type="date" class="form-control" id="fecha_inicio" placeholder="Fecha de Inicio" name="fecha_inicio" ng-model="estimacion.fecha_inicio">
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12 form-control-label" for="fecha_limite">Fecha Límite</label>
+                                    <div class="col-md-12">
+                                        <input type="date" class="form-control" id="fecha_limite" placeholder="Fecha Límite" name="fecha_limite" ng-model="estimacion.fecha_limite">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12 form-control-label" for="cuentaBancaria">Cuenta Bancaria</label>
+                                    <div class="col-md-12">
+                                        <select id="cuentaBancaria" name="cuentaBancaria" class="form-control" size="1" ng-model="estimacion.cuentaBancaria">
+                                            <option value="0" selected>Seleccionar...</option>
+                                            <option ng-repeat="cuenta in cuentasBancarias" value="{{cuenta._id}}">{{ cuenta.banco }} | {{ cuenta.noCuenta }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                            <button ng-click="registrarEstimacion()" class="btn btn-sm btn-primary">
+                                <i class="fa fa-dot-circle-o"></i> Guardar estimación</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Registrar Gastos
+                        </div>
+                        <div class="panel-body">
+                            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal ">
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="descripcion">Descripción</label>
+                                    <div class="col-md-9">
+                                        <input type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Descripción" ng-model="gasto.descripcion"
+                                            ng-keyup="complete(gasto.descripcion)">
+                                        <ul class="list-group" ng-if="hideThis">
+                                            <li class="list-group-item" ng-repeat="gasto in filterGastos" ng-click="fillTextDescription(gasto)">{{ gasto.insumo }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="proveedor">Proveedor</label>
+                                    <div class="col-md-9">
+                                        <input type="text" id="proveedor" name="proveedor" class="form-control" placeholder="" ng-model="gasto.proveedor">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="proveedor">Imagen</label>
+                                    <div class="col-md-9">
+                                        <input type="file" accept="image/*" capture="camera">
+                                    </div>
+                                </div>
+
+                                <!-- <div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="select">Proveedor</label>
+                                        <div class="col-md-9">
+                                            <select id="select" name="select" class="form-control" size="1" ng-model="gasto.proveedor">
+                                                <option value="0" selected>Seleccionar...</option>
+                                                <option *ngFor="let proveedor of proveedores" value="{{proveedor._id}}">{{ proveedor.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>-->
+
+                                <!--<div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="select">Concepto</label>
+                                        <div class="col-md-9">
+                                            <select id="select" name="select" class="form-control" size="1" ng-model="gasto.concepto">
+                                                <option value="0" selected>Seleccionar...</option>
+                                                <option *ngFor="let concepto of conceptos" value="{{concepto._id}}">{{ concepto.nombre }}</option>
+                                            </select>
+                                        </div>
+                                    </div>-->
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="monto">Monto</label>
+                                    <div class="col-md-9">
+                                        <input type="number" id="monto" name="monto" class="form-control" placeholder="Monto" ng-model="gasto.monto">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="cuentaBancaria">Cuenta Bancaria</label>
+                                    <div class="col-md-9">
+                                        <select id="cuentaBancaria" name="cuentaBancaria" class="form-control" size="1" ng-model="gasto.cuentaBancaria">
+                                            <option ng-repeat="cuenta in cuentasBancarias" value="{{cuenta._id}}">{{ cuenta.banco }} | {{ cuenta.noCuenta }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                            <button ng-click="guardarGasto()" class="btn btn-sm btn-primary">
+                                <i class="fa fa-dot-circle-o"></i> Guardar gasto</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Estimaciones
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <table class="table table-bordered table-striped table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Monto</th>
+                                                        <th>Conceptos Extras</th>
+                                                        <th>Monto + Conceptos Extras</th>
+                                                        <th>Amortizacion Anticipo</th>
+                                                        <th>Fondo de Garantía</th>
+                                                        <th>Subtotal</th>
+                                                        <th>IVA</th>
+                                                        <th>Total</th>
+                                                        <th>Status</th>
+                                                        <th>Fecha de Inicio</th>
+                                                        <th>Fecha Final</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="estimacion in estimaciones">
+                                                        <td>{{estimacion.nombre}}</td>
+                                                        <td>${{ estimacion.monto | number }}</td>
+                                                        <td>${{ estimacion.conceptos_extras | number }}</td>
+                                                        <td>${{ estimacion.monto_conceptos_extras | number }}</td>
+                                                        <td>${{ estimacion.amortizacion_anticipo | number }}</td>
+                                                        <td>${{ estimacion.fondo_garantia | number }}</td>
+                                                        <td>${{ estimacion.subtotal | number}}</td>
+                                                        <td>${{ estimacion.iva | number}}</td>
+                                                        <td>${{ estimacion.total | number}}</td>
+                                                        <td ng-if="estimacion.pagado === false">
+                                                            <button class="btn btn-info bt-sm" ng-click="pagarEstimacion(estimacion._id)">Pagar</button>
+                                                        </td>
+                                                        <td ng-if="estimacion.pagado === true">Pagado</td>
+                                                        <td>{{ estimacion.fecha_inicio | date }}</td>
+                                                        <td>{{ estimacion.fecha_limite | date }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Gastos
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <table class="table table-bordered table-striped table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Concepto</th>
+                                                        <th>Fecha</th>
+                                                        <th>Monto</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="gasto in obra.gastos">
+                                                        <td>{{gasto.descripcion}}</td>
+                                                        <td>{{gasto.createdAt | date }}</td>
+                                                        <td>$ {{gasto.monto | number}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--/.main-->
+
+        <script src="../js/public/bootstrap.min.js"></script>
+        <script src="../js/public/chart.min.js"></script>
+        <script src="../js/public/chart-data.js"></script>
+        <script src="../js/public/easypiechart.js"></script>
+        <script src="../js/public/easypiechart-data.js"></script>
+        <script src="../js/public/bootstrap-datepicker.js"></script>
+        <script src="../js/public/custom.js"></script>
+
+        <script src="../js/views/detalleObra.js"></script>
+</body>
+
+</html>

@@ -11,11 +11,19 @@ exports.verTodas = (req, res) => {
     });
 }
 
+var fs = require('fs');
+var XLSX = require('xlsx');
+var path = require('path');
+
 exports.registrarObra = (req, res) => {
+    console.log('Registrar Obra');
+    console.log(req.body);
+
 
     var cajaChica = new CajaChica({
         administrador: req.body.administrador
     });
+
 
     cajaChica.save()
         .then((cajaChicaGuardada) => {
@@ -35,8 +43,35 @@ exports.registrarObra = (req, res) => {
             return obra.save();
         })
         .then((obra) => {
-            res.json(obra);
+
+            if (req.files) {
+                req.files.forEach((file) => {
+                    var filename = file.originalname;
+                    fs.rename(file.path, "uploads/" + filename, (err) => {
+                        if (err) throw err;
+                        console.log(filename);
+
+                        var workbook = XLSX.readFile(path.join(__dirname, '../../../uploads/' + filename))
+                        var sheet_name_list = workbook.SheetNames;
+                        var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
+
+                        xlData.forEach(function (data, i) {
+                            console.log(data);
+                            obra.insumos.push({
+                                insumo: data.Material,
+                                importe: data.Importe
+                            });
+                            if (i == (xlData.length - 1)) {
+                                console.log('Direcciona');
+                                obra.save();
+                                res.json(obra);
+                            }
+                        })
+                    })
+                })
+            }
         });
+
 
 }
 
@@ -125,6 +160,7 @@ exports.eliminarObra = (req, res) => {
 exports.registrarEstimacion = (req, res) => {
     var idObra = req.params.id;
     var query = Obra.findById(idObra);
+
     query.exec().then((obra) => {
         obra.estimaciones.push({
             nombre: req.body.nombre,
@@ -147,6 +183,7 @@ exports.registrarEstimacion = (req, res) => {
         })
 
     })
+
 }
 
 exports.pagarEstimacion = (req, res) => {

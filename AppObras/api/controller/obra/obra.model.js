@@ -15,7 +15,8 @@ var obra_schema = new Schema({
     cuentaBancaria: { type: Schema.Types.ObjectId, ref: 'CuentaBancaria' },
     anticipoPagado: { type: Boolean, default: false},
     administrador: { type: Schema.Types.ObjectId, ref: 'Usuario' },
-    caja_chica: { type: Schema.Types.ObjectId, ref: 'CajaChica' }    
+    caja_chica: { type: Schema.Types.ObjectId, ref: 'CajaChica' },
+    insumos: [{insumo : String , importe: Number}]    
 });
 
 var Obra = mongoose.model('Obra', obra_schema);

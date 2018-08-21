@@ -7,7 +7,8 @@ var usuario_schema = new Schema({
     rol: String,
     correo_electronico: String,
     usuario: String,
-    password: String
+    password: String,
+    rol: String
 });
 
 var Usuario = mongoose.model('Usuario', usuario_schema);

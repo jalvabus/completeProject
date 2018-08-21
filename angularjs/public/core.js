@@ -63,15 +63,18 @@ var scotchTodo = angular.module('scotchTodo', [])
 
             formData.append('file', file);
             formData.append('image', image);
+            console.log(formData);
 
-            $http.post('/api/fileupload/', formData, {
-                transformRequest: angular.identity,
-                headers: {
-                    'Content-type': undefined
-                }
-            }).then((res, err) => {
-                if (err) throw err;
-                console.log(res.data);
+            $.ajax({
+                url: '/api/fileupload',
+                type: 'POST',
+                data: formData,
+                success: function (data) {
+                    alert(data)
+                },
+                cache: false,
+                contentType: false,
+                processData: false
             });
         };
 

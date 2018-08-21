@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="cuentasApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/datepicker3.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+    <!--Custom Font-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <script src="../js/public/jquery.js"></script>
+    <script src="../js/public/angular.js"></script>
+    <script src="../js/public/sweet.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/fileinput.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body ng-controller="cuentasController">
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <span>App</span>Contratistas</a>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <% include ../partials/navegacion.ejs %>
+        <!--/.sidebar-->
+
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li class="">Inicio</li>
+                    <li class="active">Depositos</li>
+                </ol>
+            </div>
+            <!--/.row-->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Depositos</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Registrar Depositos
+                        </div>
+                        <input type="text" id="idObra" value="<%= cuenta %>">
+                        <div class="panel-body">
+                            <div class="form-group row">
+                                <label class="col-md-2 form-control-label" for="text-input">Concepto</label>
+                                <div class="col-md-5">
+                                    <input type="text" id="text-input" class="form-control" ng-model="nuevoDeposito.concepto" id="concepto" name="concepto" placeholder="Concepto"
+                                    />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-2 form-control-label" for="text-input">Monto</label>
+                                <div class="col-md-5">
+                                    <input type="number" id="text-input" class="form-control" ng-model="nuevoDeposito.monto" id="monto" name="monto" placeholder="Monto"
+                                    />
+                                </div>
+                            </div>
+                            <button ng-click="registrarDeposito()" type="button" class="btn btn-sm btn-primary">
+                                <i class="fa fa-dot-circle-o"></i> Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Depositos
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <table class="table table-bordered table-striped table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Concepto</th>
+                                                        <th>Fecha</th>
+                                                        <th>Monto</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="deposito in cuenta.depositos">
+                                                        <td>{{deposito.concepto}}</td>
+                                                        <td>{{deposito.createdAt | date}}</td>
+                                                        <td>${{deposito.monto | number}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Gastos
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <table class="table table-bordered table-striped table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Concepto</th>
+                                                        <th>Fecha</th>
+                                                        <th>Monto</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="gasto in cuenta.gastos">
+                                                        <td>{{gasto.descripcion}}</td>
+                                                        <td>{{gasto.createdAt | date }}</td>
+                                                        <td>$ {{gasto.monto | number}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--/.main-->
+
+        <script src="../js/public/bootstrap.min.js"></script>
+        <script src="../js/public/chart.min.js"></script>
+        <script src="../js/public/chart-data.js"></script>
+        <script src="../js/public/easypiechart.js"></script>
+        <script src="../js/public/easypiechart-data.js"></script>
+        <script src="../js/public/bootstrap-datepicker.js"></script>
+        <script src="../js/public/custom.js"></script>
+
+        <script src="../js/views/cuentas.js"></script>
+</body>
+
+</html>

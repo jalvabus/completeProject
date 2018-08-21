@@ -1,10 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
+var multer = require('multer');
+var fs = require('fs');
+
 var controller = require('./obra.controller');
+var upload = multer({ dest: 'uploads/' });
 
 router.get('/', controller.verTodas);
-router.post('/', controller.registrarObra);
+router.post('/',  upload.any(), controller.registrarObra);
 
 router.get('/:id', controller.obtenerObra);
 router.put('/:id', controller.modificarObra);

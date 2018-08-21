@@ -44,6 +44,9 @@ exports.modificarCuentaBancaria = (req, res) => {
 }
 
 exports.registrarDeposito = (req, res) => {
+    console.log(req.params);
+    console.log(req.body);
+    
     CuentaBancaria.findById(req.params.id)
         .exec()
         .then((cuenta) => {

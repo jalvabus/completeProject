@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="obraApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+    <!--Custom Font-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <script src="js/public/jquery.js"></script>
+    <script src="js/public/angular.js"></script>
+    <script src="js/public/sweet.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/fileinput.min.js"></script>
+</head>
+
+<body ng-controller="obraController">
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <span>App</span>Contratistas</a>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <% include ../partials/navegacion.ejs %>
+        <!--/.sidebar-->
+
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li class="">Inicio</li>
+                    <li class="active">Obras</li>
+                </ol>
+            </div>
+            <!--/.row-->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Obras</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Registrar Obra
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="name">Nombre</label>
+                                        <input type="text" class="form-control" id="nombre" placeholder="Nombre" ng-model="obra.nombre">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="name">Precio del contrato</label>
+                                        <input type="number" class="form-control" id="precio_contrato" placeholder="Precio del contrato" ng-model="obra.precio_contrato">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="name">Anticipo (%)</label>
+                                        <input type="number" class="form-control" id="precio_contrato" placeholder="Anticipo" ng-model="obra.porcentaje_anticipo">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="name">Cuenta Bancaria</label>
+                                        
+                                        <select name="" id="" class="form-control" ng-options="cuentaBancaria as cuentaBancaria.noCuenta for cuentaBancaria in cuentasBancarias"
+                                            ng-model="obra.cuentaBancaria">
+                                            <option value=""></option>
+                                        </select>
+                                        <!--
+                                        <select id="cuentaBancaria" name="cuentaBancaria" class="form-control" size="1" ng-model="obra.cuentaBancaria">
+                                            <option ng-repeat="cuenta in cuentasBancarias" value="{{cuenta._id}}">{{ cuenta.banco }} | {{ cuenta.noCuenta }}</option>
+                                        </select>
+                                        -->
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="name">Administrador</label>
+                                        <select name="" id="" class="form-control" ng-options="administrador as administrador.nombre for administrador in administradores"
+                                            ng-model="obra.administrador">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="name">Dirección</label>
+                                        <input type="text" class="form-control" id="direccion" placeholder="Dirección" ng-model="obra.direccion">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="name">Fecha de Inicio</label>
+                                        <input type="date" class="form-control" id="direccion" placeholder="Fecha de Inicio" ng-model="obra.fecha_inicio">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="name">Fecha Límite</label>
+                                        <input type="date" class="form-control" id="fecha_limite" placeholder="Fecha Límite" ng-model="obra.fecha_limite">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="">Insumos</label>
+                                        <input class="form-control" type="file" id="file" name="file" multiple/>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <button ng-click="guardarObra()" type="button" class="btn btn-sm btn-primary">
+                                            <i class="fa fa-dot-circle-o"></i> Guardar</button>
+                                        <button type="reset" class="btn btn-sm btn-danger">
+                                            <i class="fa fa-ban"></i> Reiniciar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Todas las obras
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Precio contrato</th>
+                                        <th>Anticipo</th>
+                                        <th>Fecha Inicio</th>
+                                        <th>Fecha Limite</th>
+                                        <th>Caja chica</th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-if="obras.length > 0">
+                                    <tr ng-repeat="obra in obras">
+                                        <td>
+                                            <a href="/detalleObra/{{ obra._id }}">{{ obra.nombre }}</a>
+                                        </td>
+                                        <td>$ {{ obra.precio_contrato }}</td>
+                                        <td>$ {{ obra.porcentaje_anticipo }}</td>
+                                        <td>{{ obra.fecha_inicio | date }}</td>
+                                        <td>{{ obra.fecha_limite | date }}</td>
+                                        <td>
+                                            <a href="/cajachica/{{ obra._id }}">Ver</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--/.main-->
+
+        <script src="js/public/bootstrap.min.js"></script>
+        <script src="js/public/chart.min.js"></script>
+        <script src="js/public/chart-data.js"></script>
+        <script src="js/public/easypiechart.js"></script>
+        <script src="js/public/easypiechart-data.js"></script>
+        <script src="js/public/bootstrap-datepicker.js"></script>
+        <script src="js/public/custom.js"></script>
+
+        <script src="js/views/obra.js"></script>
+</body>
+
+</html>
