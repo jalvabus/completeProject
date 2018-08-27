@@ -1,0 +1,17 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Edición</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor='let marca of marcas'>
+      <th>{{marca.nombre}}</th>
+     
+      <th><button name='guardar' class='btn btn-sm btn-primary' (click)='guardar(marca)'>Editar</button></th>
+      <th><button name='eliminar' class='btn btn-sm btn-primary' (click)='eliminar(marca)'>Eliminar</button></th>
+      
+    </tr>
+   </tbody>
+</table>

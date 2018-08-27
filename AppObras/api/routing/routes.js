@@ -1,20 +1,16 @@
 var express = require('express');
 var router = express.Router();
 
+router.get('/auth/login', (req, res) => {
+    res.render('login.ejs');
+})
+
 router.get('/administrador', (req, res) => {
     res.render('administrador/administrador.ejs');
 })
 
 router.get('/index', (req, res) => {
     res.render('index.ejs');
-})
-
-router.get('/login', (req, res) => {
-    res.render('login.ejs');
-})
-
-router.get('/logout', (req, res) => {
-
 })
 
 router.get('/cajachica/:id', (req, res) => {
@@ -55,6 +51,10 @@ router.get('/destajistas', (req, res) => {
 
 router.get('/requerimientos', (req, res) => {
     res.render('requerimientos/requerimientos.ejs');
+})
+
+router.get('/getUser', (req, res) => {
+    res.json(req.user);
 })
 
 module.exports = router;

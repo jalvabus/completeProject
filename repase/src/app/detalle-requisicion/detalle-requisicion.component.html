@@ -1,0 +1,391 @@
+<div class="card-block">
+
+  <div class="card-footer">
+    <button [disabled]="requisicion.etapa==1" type="button" id="cotización" class="btn btn-sm btn-primary" id="submit" (click)='anterior()'>
+      <i class="fa fa-dot-circle-o"></i>Anterior</button>
+    <button [disabled]="requisicion.etapa==6" type="button" id="cotización" class="btn btn-sm btn-primary" id="submit" (click)='siguiente()'>
+      <i class="fa fa-dot-circle-o"></i>Siguiente</button>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Etapa</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <h3>{{requisicion.etapa}}</h3>
+        </td>
+
+        <!--<td class="col-md-6">
+              <span id="ex18-label-1" class="hidden">Etapa</span>
+              <input id="etapa" type="text" data-provide="slider" data-slider-ticks="[1, 2, 3, 4 ,5 ,6]" data-slider-ticks-labels='["1", "2", "3", "4", "5","6"]'
+                data-slider-min="1" data-slider-max="6" data-slider-step="1" data-slider-value="{{requisicion.etapa.id}}" />
+            </td>-->
+
+        <td>
+
+
+          <div id="acciones">
+
+
+            <div *ngIf='requisicion.etapa===1'>
+              <h4>Verificar datos de la requisición </h4>
+            </div>
+            <div *ngIf='requisicion.etapa===2'>
+              <h4>Solicitar cotización a proveedores por marca </h4>
+            </div>
+            <div *ngIf='requisicion.etapa===3'>
+              <button *ngFor='let moneda of monedas' type="button" class="btn btn-primary" id="visualizarCotizacionCliente_{{moneda}}"
+                (click)='visualizarCotizacionCliente(moneda)'>
+                Visualizar Cotización ({{moneda}})
+              </button>
+              <button type="button" class="btn btn-primary" id="cotizacionCliente" (click)='cotizacionCliente()'>
+                Enviar Cotización a Cliente
+              </button>
+            </div>
+
+
+            <div *ngIf='requisicion.etapa===4'>
+              <button *ngFor='let moneda of monedas' id='ordenCliente_{{moneda}}' type="button"  class="btn btn-primary" (click)='visualizarOrdenCliente(moneda)'>
+                Visualizar Orden Cliente({{moneda}})
+              </button>
+
+              <button type="button" style="width: 200px;" class="btn btn-primary" id='enviarOrdenCliente' (click)='ordenCliente()'>
+                Enviar Orden Cliente
+              </button>
+
+            </div>
+            <div *ngIf='requisicion.etapa===5'>
+              <h4>Status piezas</h4>
+
+            </div>
+
+            <div *ngIf="cargando" class="text-center" style="padding-top: 60px;">
+              <img src="../../assets/img/spinner.gif" width="20%" height="20%">
+            </div>
+
+          </div>
+        </td>
+        <td *ngIf='requisicion.etapa===4'>
+          <table>
+            <tr *ngFor='let sub of requisicion.subrequisicion'>
+              <td>{{sub.proveedor.empresa}}({{sub.proveedor.nombre}})</td>
+              <td>
+                <button type="button" [disabled]="!sub.envio" class="btn btn-primary" id="visualizarOrdenP" (click)='visualizarOrdenP(sub)'>
+                  Visualizar orden compra
+                </button>
+              </td>
+              <td>
+                <button type="button" [disabled]="!sub.envio" class="btn btn-primary" id="enviarOrdenP" (click)='enviarOrdenP(sub)'>
+                  Enviar orden compra
+                </button>
+              </td>
+
+              <td>
+                <input type="text" value="{{sub.ship}}" class="form-control" name="sub.ship" placeholder="Ship To" [(ngModel)]='sub.ship'
+                />
+
+              </td>
+              <td>
+                <input type="text" value="{{sub.invoice}}" class="form-control" name="sub.invoice" placeholder="Invoice" [(ngModel)]='sub.invoice'
+                />
+
+              </td>
+              <td>
+                <button type="button" [disabled]="!sub.ship && !sub.invoice" class="btn btn-primary" id="enviarOrdenP" (click)='guardarSub(sub)'>
+                  Guardar
+                </button>
+              </td>
+            </tr>
+          </table>
+        </td>
+        <td *ngIf='requisicion.etapa===5'>
+          <table>
+            <thead>
+              <tr>
+                <th>#Pieza</th>
+                <th>Marca</th>
+                <th>Paquetería</th>
+                <th>Guía</th>
+                <th>Status</th>
+                <th>Comentarios</th>
+
+              </tr>
+            </thead>
+
+            <tr *ngFor='let pieza of requisicion.piezas'>
+              <td>{{pieza.pieza.noPieza}}</td>
+              <td>{{pieza.pieza.marca.nombre}}</td>
+              <td>
+                <input type="text" value="{{pieza.paqueteria}}" class="form-control" name="paq_{{requisicion._id}}_{{pieza._id}}" [(ngModel)]='pieza.paqueteria'
+                />
+              </td>
+              <td>
+                <input type="text" value="{{pieza.guia}}" class="form-control" name="guia_{{requisicion._id}}_{{pieza._id}}" [(ngModel)]='pieza.guia'
+                />
+
+              </td>
+              <td>
+                <input type="text" value="{{pieza.status}}" class="form-control" name="status_{{requisicion._id}}_{{pieza._id}}" [(ngModel)]='pieza.status'
+                />
+
+              </td>
+              <td>
+                <input type="text" value="{{pieza.comentarios}}" class="form-control" name="com_{{requisicion._id}}_{{pieza._id}}" [(ngModel)]='pieza.comentarios'
+                />
+
+              </td>
+
+            </tr>
+            <tr align="right">
+              <button class="btn btn-sm btn-primary" (click)='guardarStatus()' style="float: right;">Guardar</button>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="col-sm-12">
+  <div class="card">
+    <div class="card-header">
+      <strong>Requisición</strong>
+    </div>
+    <form method="post" id='form'>
+      <input type="hidden" name="id" value=" {{requisicion._id}} " />
+      <div class="card-block">
+        <div class="row">
+          <div class="form-group col-sm-4">
+            <label for="cliente">Cliente</label>
+            <input disabled type="text" class="form-control" id="cliente" name="nombre" placeholder="Manuel Antonio Rosete Alcántar"
+              value="{{requisicion.cliente.nombre}} " />
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="telefono">Telefono</label>
+            <input disabled type="text" class="form-control" id="telefono" name="telefono" placeholder="777-146-42-54" value="{{requisicion.cliente.telefono}}"
+            />
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="email">E-mail</label>
+            <input disabled type="text" class="form-control" id="email" name="email" placeholder="mrosete-a@hotmail.com" value="{{requisicion.cliente.email}}"
+            />
+          </div>
+        </div>
+        <div class="row">
+
+
+          <div class="form-group col-sm-4">
+            <label for="empresa">Empresa</label>
+            <input disabled type="text" class="form-control" id="empresa" name="empresa" placeholder="REPASE" value="{{requisicion.cliente.empresa}}"
+            />
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="rfc">RFC</label>
+            <input disabled type="text" class="form-control" id="rfc" name="rfc" placeholder="RAOM452214AC4" value="{{requisicion.cliente.rfc}}"
+            />
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="entrada">Entrada</label>
+            <select style="width: 100%;" class="form-control" id="entrada" name="entrada" disabled>
+              <option value="WhatsApp" [selected]="requisicion.entrada=='WhatsApp'"> WhatsApp </option>
+              <option value="ChatMX" [selected]="requisicion.entrada=='ChatMX'">Chat MX</option>
+              <option value="ChatUSA" [selected]="requisicion.entrada=='ChatUSA'">Chat USA</option>
+              <option value="Telefono" [selected]="requisicion.entrada=='Telefono'">Teléfono</option>
+              <option value="PaginaWeb" [selected]="requisicion.entrada=='PaginaWeb'">Página Web</option>
+            </select>
+
+
+          </div>
+
+
+        </div>
+        <div class="row">
+
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-4">
+            <label for="calle">Calle</label>
+            <input disabled type="text" class="form-control" name="calle" id="calle" placeholder="Navarra" value="{{requisicion.cliente.direccion.calle}}"
+            />
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="numeroInterior">Número Interior</label>
+            <input disabled type="text" class="form-control" name="numeroInterior" id="numeroInterior" placeholder="#46" value="{{requisicion.cliente.direccion.nInterior}} "
+            />
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="numeroExterior">Número exterior</label>
+            <input disabled type="text" class="form-control" name="numeroExterior" id="numeroExterior" placeholder="#4" value="{{requisicion.cliente.direccion.nExterior}}"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-3">
+            <label for="colonia">Colonia</label>
+            <input disabled type="text" class="form-control" name="colonia" id="colonia" placeholder="El castillo" value="{{requisicion.cliente.direccion.colonia}}"
+            />
+          </div>
+          <div class="form-group col-sm-3">
+            <label for="municipio">Municipio</label>
+            <input disabled type="text" class="form-control" name="municipio" id="municipio" placeholder="E. Zapata" value="{{requisicion.cliente.direccion.municipio}}"
+            />
+          </div>
+          <div class="form-group col-sm-3">
+            <label for="estado">Estado</label>
+            <input disabled type="text" class="form-control" name="estado" id="estado" placeholder="Morelos" value="{{requisicion.cliente.direccion.estado}}"
+            />
+          </div>
+          <div class="form-group col-sm-3">
+            <label for="codigoPostal">Código Postal</label>
+            <input disabled type="text" class="form-control" name="codigoPostal" id="codigoPostal" placeholder="62756" value="{{requisicion.cliente.direccion.cPostal}}"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-3">
+            <label for="codigoPostal">LAB</label>
+            <input type="text" class="form-control" name="lab" id="lab" placeholder="62756" value="{{requisicion.lab}}" [(ngModel)]='requisicion.lab'
+            />
+          </div>
+          <div class="form-group col-sm-3">
+            <label for="codigoPostal">Descuento</label>
+            <input type="number" class="form-control" name="descuento" id="descuento" placeholder="20" [(ngModel)]='requisicion.descuento'
+              value="{{requisicion.descuento}}" />
+          </div>
+        </div>
+
+      </div>
+
+      <div id="piezas" class="card" *ngIf='requisicion.etapa===1 || requisicion.etapa===3'>
+        <div class="card-header">
+          <strong>Piezas</strong>
+        </div>
+
+        <div class="card-block hr-style" *ngFor='let pieza of requisicion.piezas'>
+          <div class='row'>
+            <div class="form-group col-sm-3">
+              <label># de Pieza</label>
+              <input type="text" class="form-control" value="{{pieza.pieza.noPieza}}" disabled/>
+            </div>
+            <div class="form-group col-sm-2">
+              <label>Modelo</label>
+              <input type="text" class="form-control" value="{{pieza.pieza.modelo}}" disabled/>
+            </div>
+            <div class="form-group col-sm-2">
+              <label>Marca</label>
+              <input type="text" class="form-control" value="{{pieza.pieza.marca.nombre}}" disabled/>
+            </div>
+            <div class="form-group col-sm-3">
+              <label>Descripción</label>
+              <input type="text" class="form-control" value="{{pieza.pieza.descripcion}}" disabled />
+            </div>
+            <div class="form-group col-sm-2">
+              <label>Cantidad</label>
+              <input type="number" class="form-control" value="{{pieza.cantidad}}" name="cantidad_{{requisicion._id}}_{{pieza._id}}" [(ngModel)]='pieza.cantidad'
+              />
+            </div>
+          </div>
+
+          <div class='row' *ngIf='requisicion.etapa==3'>
+            <div class="form-group col-sm-2">
+              <label>Precio de proveedor</label>
+              <input type="number" value="{{pieza.precioProveedor}}" step=".01" class="form-control precio" name="precio_{{requisicion._id}}_{{pieza._id}}"
+                [(ngModel)]='pieza.precioProveedor' (ngModelChange)='actualizarPrecio(pieza)' />
+
+            </div>
+            <div class="form-group col-sm-2">
+              <label>Porcentaje de aumento (%)</label>
+              <input type="number" step=".01" class="form-control
+                  precioPublico" value="{{pieza.porcentaje}}" name="precioPublico_{{requisicion._id}}_{{pieza._id}}" [(ngModel)]='pieza.porcentaje'
+                (ngModelChange)='actualizarPrecio(pieza)' />
+
+            </div>
+            <div class="form-group col-sm-2">
+              <label>Precio público</label>
+
+              <input type="number" value="{{pieza.precioPublico}}" step=".01" disabled class="form-control precioPublico" value="{{pieza.precioPublico}}"
+              />
+            </div>
+            <div class='form-group col-sm-2' *ngIf='requisicion.etapa==3'>
+              <label>Proveedor</label>
+              <select class="form-control" name="proveedor_{{pieza._id}}" id="" [(ngModel)]='pieza.proveedor'>
+                <option *ngFor='let proveedor of pieza.pieza.marca.proveedores' [selected]='proveedor._id===pieza.proveedor' value="{{proveedor._id}}">
+                  {{proveedor.empresa}}({{proveedor.nombre}})
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group col-sm-2" *ngIf='requisicion.etapa==3'>
+              <label for="moneda">Moneda</label>
+              <select class="form-control" id="moneda" name="moneda_{{pieza._id}}" [(ngModel)]='pieza.moneda'>
+                <option [selected]="pieza.moneda==='Euro(EUR)'">Euro(EUR)</option>
+                <option [selected]="pieza.moneda==='Peso(MXN)'">Peso(MXN)</option>
+                <option [selected]="pieza.moneda==='Dolar(USD)'">Dolar(USD)</option>
+              </select>
+
+            </div>
+            <div class="form-group col-sm-2">
+              <label>Tiempo de entrega en días</label>
+              <input type="text " value="{{pieza.tiempoEntegra}}" step=".01" class="form-control precio" name="tiempo_{{requisicion._id}}_{{pieza._id}}"
+                [(ngModel)]='pieza.tiempoEntrega' />
+
+            </div>
+            <div class="form-group col-sm-2">
+              <button class="btn btn-sm btn-primary" (click)='eliminarPieza(pieza)'>Eliminar</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div id="proveedores" class="card" *ngIf='requisicion.etapa===2'>
+        <div class="card-header">
+          <strong>Sugerencia de proveedores</strong>
+        </div>
+        <div class="card-block hr-style">
+          <table class='table'>
+            <thead>
+              <th>Marca</th>
+              <th>Proveedores</th>
+              <th>Comentarios</th>
+              <th>Cotización</th>
+
+            </thead>
+            <tbody>
+              <tr *ngFor='let marca of marcas'>
+                <td>{{marca.nombre}}</td>
+                <td>
+                  <select class="form-control" multiple name='marca_{{marca._id}}' [(ngModel)]='marca.proveedoresSeleccionados'>
+                    <option *ngFor='let proveedor of marca.proveedores' value='{{proveedor._id}}'>{{proveedor.empresa}}({{proveedor.nombre}})</option>
+                  </select>
+                </td>
+                <td>
+                  <textarea name="comentarios_{{marca._id}}" cols="30" rows="3" [(ngModel)]='marca.comentarios'></textarea>
+                </td>
+                <td>
+                  <button [disabled]="!marca.proveedoresSeleccionados" type="button" id="cotización" class="btn btn-sm btn-primary" id="submit"
+                    (click)='solicitarCotizacion(marca)'>
+                    <i class="fa fa-dot-circle-o"></i> Solicitar cotización</button>
+                </td>
+
+              </tr>
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+      </div>
+      <div class="card-footer">
+        <button type="button" id="guardar" class="btn btn-sm btn-primary" id="submit" (click)='guardar()'>
+          <i class="fa fa-dot-circle-o"></i> Guardar</button>
+      </div>
+
+    </form>
+
+
+  </div>
+</div>

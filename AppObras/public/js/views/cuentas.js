@@ -3,16 +3,24 @@ var scotchTodo = angular.module('cuentasApp', [])
     .controller('cuentasController', function ($scope, $http) {
         $('#idObra').hide();
 
-        $scope.cuenta = [];
+        $scope.cuentaBancaria = [];
+        $scope.cuentas = [];
 
-        $http({
-            method: 'GET',
-            url: '/api/cuentaBancaria/' + $('#idObra').val()
-        }).then((response) => {
-            $scope.cuenta = response.data;
-        }, (err) => {
+        $scope.guardarCuenta = function () {
+            console.log($scope.cuentaBancaria);
+            $http({
+                method: 'POST',
+                url: '/api/cuentaBancaria',
+                data: $scope.cuentaBancaria
+            }).then(function successCallback(response) {
+                $scope.cuentas.push(response.data);
+                swal("Cuenta creada con exito", {
+                    icon: "success",
+                });
+            }, function errorCallback(response) {
+            });
 
-        });
+        }
 
         $scope.nuevoDeposito = {};
         $scope.registrarDeposito = function () {
@@ -29,10 +37,24 @@ var scotchTodo = angular.module('cuentasApp', [])
             })
         }
 
+        $scope.cuenta = {};
+
+        if ($('#idObra').val()) {
+            $http({
+                method: 'GET',
+                url: '/api/cuentaBancaria/' + $('#idObra').val(),
+                data: $scope.cuentaBancaria
+            }).then(function successCallback(response) {
+                $scope.cuenta = response.data;
+            }, function errorCallback(response) {
+            });
+        }
+
         $http({
             method: 'GET',
             url: '/api/cuentaBancaria'
         }).then(function successCallback(response) {
+            console.log(response);
             let cuentas = response.data;
             for (var i = 0; i < cuentas.length; i++) {
 

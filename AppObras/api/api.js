@@ -8,5 +8,6 @@ router.use('/gasto/', require('./controller/gasto'));
 router.use('/cuentaBancaria/', require('./controller/cuenta-bancaria'));
 router.use('/usuario/', require('./controller/usuario'));
 router.use('/caja-chica/', require('./controller/caja-chica'));
+router.use('/insumo/', require('./controller/materiales'));
 
 module.exports = router;

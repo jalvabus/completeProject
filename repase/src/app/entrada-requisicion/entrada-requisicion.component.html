@@ -1,0 +1,125 @@
+<div class="app-body">
+
+    <main class="main">
+        <div class="container-fluid">
+            <div class="animated fadeIn">
+                <div class="row" style="padding-top: 10px;">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Nueva Requisición</strong>
+                            </div>
+                            <form action="" method="post" id='formulario'>
+
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="form-group col-sm-4">
+                                            <label for="cliente">Cliente</label>
+                                            <input type="text" class="form-control" id="cliente" name="cliente" placeholder="Manuel Antonio Rosete"  >
+                                            
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="telefono">Telefono</label>
+                                            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="777-146-42-54"  value="{{cliente.telefono}}" [(ngModel)]='form.telefono'>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="email">E-mail</label>
+                                            <input type="text" class="form-control" id="email" name="email" placeholder="mrosete-a@hotmail.com" value="{{cliente.email}}" [(ngModel)]='form.email'>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-4">
+                                            <label for="empresa">Empresa</label>
+                                            <input type="text" class="form-control" id="empresa" name="empresa" placeholder="REPASE" [(ngModel)]='form.empresa' value='{{cliente.empresa}}'>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="rfc">RFC</label>
+                                            <input type="text" class="form-control" id="rfc" name="rfc" placeholder="RAOM452214AC4" [(ngModel)]='form.rfc' value='{{cliente.rfc}}'>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="entrada">Entrada</label>
+                                            <select id="entrada" name="entrada" class="form-control" [(ngModel)]='form.entrada'>
+                                              <option value="WhatsApp" > WhatsApp </option>
+                                              <option value="ChatMX" >Chat MX</option>
+                                              <option value="ChatUSA" >Chat USA</option>
+                                              <option value="Telefono" >Teléfono</option>
+                                              <option value="PaginaWeb">Página Web</option>
+                                           </select>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-4">
+                                            <label for="calle">Calle</label>
+                                            <input type="text" class="form-control" name="calle" id="calle" placeholder="Navarra" [(ngModel)]='form.direccion.calle' value='{{cliente.direccion.calle}}'>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="numeroInterior">Número Interior</label>
+                                            <input type="text" class="form-control" name="numeroInterior" id="numeroInterior" placeholder="#46" [(ngModel)]='form.direccion.noInterior' value='{{cliente.direccion.nInterior}}'>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="numeroExterior">Número exterior</label>
+                                            <input type="text" class="form-control" name="numeroExterior" id="numeroExterior" placeholder="#4" [(ngModel)]='form.direccion.noExterior' value='{{cliente.direccion.nExterior}}'>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-3">
+                                            <label for="colonia">Colonia</label>
+                                            <input type="text" class="form-control" name="colonia" id="colonia" placeholder="El castillo" [(ngModel)]='form.direccion.colonia' value='{{cliente.direccion.colonia}}'>
+                                        </div>
+                                        <div class="form-group col-sm-3">
+                                            <label for="municipio">Municipio</label>
+                                            <input type="text" class="form-control" name="municipio" id="municipio" placeholder="E. Zapata" [(ngModel)]='form.direccion.municipio' value='{{cliente.direccion.municipio}}'>
+                                        </div>
+                                        <div class="form-group col-sm-3">
+                                            <label for="estado">Estado</label>
+                                            <input type="text" class="form-control" name="estado" id="estado" placeholder="Morelos" [(ngModel)]='form.direccion.estado' value='{{cliente.direccion.estado}}'>
+                                        </div>
+                                        <div class="form-group col-sm-3">
+                                            <label for="codigoPostal">Código Postal</label>
+                                            <input type="text" class="form-control" name="codigoPostal" id="codigoPostal" placeholder="62756" [(ngModel)]='form.direccion.codigoPostal' value='{{cliente.direccion.cPostal}}'>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-6">
+                                            <label for="vendedor">Vendedor</label>
+                                            <select id="usuario" name="usuario" class="form-control" [(ngModel)]='form.usuario'>
+                                             <option *ngFor='let vendedor of vendedores' value="{{vendedor._id}}">{{vendedor.nombre}} {{vendedor.apellidos}}</option>
+                                          </select>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="comentarios">Comentarios</label>
+                                            <textarea type="comentarios" class="form-control" name="comentarios" id="comentarios" [(ngModel)]='form.comentarios'> </textarea>
+                                        </div>
+                                    </div>
+                                    
+                                        
+                                    
+                                    <div id="piezas" class="card">
+                                        <div class="card-header">
+                                            <strong>Piezas</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group form-actions">
+                                        <button type="button" class="btn btn-secondary" id="addPieza" (click)='click()'>Agregar pieza...</button>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" (click)='registrar()' class="btn btn-sm btn-primary" id="submit"><i class="fa fa-dot-circle-o" ></i> Registrar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--/.col-->
+
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+

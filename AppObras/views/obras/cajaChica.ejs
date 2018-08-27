@@ -91,19 +91,15 @@
                         </div>
                         <div class="panel-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal ">
-
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="descripcion">Monto</label>
                                     <div class="col-md-9">
-                                        <input type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Monto" [(ngModel)]="deposito.monto">
+                                        <input type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Monto" ng-model="deposito.monto">
                                     </div>
                                 </div>
-
-
                             </form>
-                            <button (click)="depositar()" class="btn btn-sm btn-primary">
+                            <button ng-click="depositar()" class="btn btn-sm btn-primary">
                                 <i class="fa fa-dot-circle-o"></i> Guardar deposito</button>
-
                         </div>
                     </div>
                 </div>
@@ -113,7 +109,7 @@
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Estimaciones
+                            Gastos
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -132,7 +128,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor="let gasto of gastos">
+                                                    <tr ng-repeat="gasto in gastos">
                                                         <td>{{ gasto.descripcion }}</td>
                                                         <td>${{ gasto.precio | number}}</td>
                                                         <td>{{ gasto.cantidad | number}}</td>

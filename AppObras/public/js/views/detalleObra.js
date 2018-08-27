@@ -187,6 +187,41 @@ var scotchTodo = angular.module('obraDetApp', [])
         }
 
         /**
+         * Comletar los proveedores
+         */
+        $scope.proveedores = {};
+
+        $http({
+            method: 'GET',
+            url: '/api/proveedor'
+        }).then(function successCallback(response) {
+            console.log(response.data);
+            $scope.proveedores = response.data;
+        }, function errorCallback(response) {
+        });
+
+        $scope.completeP = function (string) {
+            var output = [];
+            angular.forEach($scope.proveedores, (proveedor) => {
+                if (proveedor.nombre.toLowerCase().indexOf(string.toLowerCase()) >= 0) {
+                    output.push(proveedor);
+                }
+            });
+            $scope.filterproveedor = output;
+            $scope.hideThisP = true;
+            if (!string) {
+                $scope.hideThisP = false;
+            }
+        }
+
+        $scope.hideThisP = true;
+        $scope.fillTextDescriptionP = function (string) {
+            $scope.gasto.proveedor = string.nombre;
+            $scope.hideThisP = false;
+        }
+
+
+        /**
          * Obtener las cuentas bancarias
          */
         $http({

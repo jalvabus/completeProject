@@ -1,0 +1,47 @@
+<div class="col-sm-12">
+  <div class="card">
+    <div class="card-header">
+      <strong>Editar Usuario</strong>
+    </div>
+    <form method="post">
+      <div class="card-block">
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <label for="nombre">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Manuel Antonio" [(ngModel)]='form.nombre' value='{{form.nombre}}'>
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="nombre">Apellidos</label>
+            <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Rosete Alcántar" [(ngModel)]='form.apellidos' value='{{form.apellidos}}'>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" name="email" placeholder="mrosetea@hotmail.com" [(ngModel)]='form.email.email' value='{{form.email.email}}'/>
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="email">Password</label>
+            <input type="text" class="form-control" id="passE" name="passE" [(ngModel)]='form.email.password'  value='{{form.email.password}}'/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-4">
+            <label for="rol">Rol</label>
+            <select class="form-control" id="rol" name="rol" [(ngModel)]='form.rol'>
+                                  <option value="A" [selected]="form.rol==='A'">Administrador</option>
+                                  <option value="C" [selected]="form.rol==='C'">Capturista</option>
+                                  <option value="V" [selected]="form.rol==='V'">Vendedor</option>
+                              </select>
+          </div>
+          
+        </div>
+
+      </div>
+      <div class="card-footer">
+        <button  type="button" class="btn btn-sm btn-primary" id="submit" (click)='guardar()'><i class="fa fa-dot-circle-o"></i>Guardar</button>
+      </div>
+
+    </form>
+  </div>
+</div>

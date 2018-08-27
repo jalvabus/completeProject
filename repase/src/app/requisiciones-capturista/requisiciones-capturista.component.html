@@ -1,0 +1,44 @@
+<div class="row">
+    
+<div class="form-group col-sm-2">
+    <label for="">#Folio</label>
+    <input type="text" class="form-control" id="folio" name="folio" placeholder="1" [(ngModel)]='folio._id' />
+</div>
+</div>
+<div class="row" style="padding-top: 10px;">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Requisiciones
+        </div>
+        <div class="card-block">
+                    <table class="table">
+            <thead>
+              <tr>
+                <th>#Folio</th>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Piezas</th>
+                <th>Vendedor</th>
+                <th>Detalles...</th>
+              </tr>
+            </thead>
+            <tbody *ngIf='requisiciones'>
+              <tr *ngFor='let requisicion of requisiciones | filter:folio._id'>
+                <th>{{requisicion._id}}</th>
+                <th>{{requisicion.fecha | date:'d/M/y'}}</th>
+                <th>{{requisicion.cliente.nombre}}</th>
+                <th>
+                  <li *ngFor='let pieza of requisicion.piezas'> 
+                    <a>{{pieza.pieza.noPieza}}</a>
+                  </li>
+                </th>
+                <th>{{requisicion.usuario.nombre}}</th>
+                <th><a routerLinkActive="active" [routerLink]="['/editarRequisicion',requisicion._id]">editar</a></th>
+              </tr>
+             </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

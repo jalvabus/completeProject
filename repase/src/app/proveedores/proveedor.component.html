@@ -1,0 +1,155 @@
+<div class="app-body">
+
+    <main class="main">
+        <div class="container-fluid">
+            <div class="animated fadeIn">
+                <div class="row" style="padding-top: 10px;">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Nueva Marca</strong>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="form-group col-sm-4">
+                                    <label for="marca">Nombre</label>
+                                    <input type="text" class="form-control" id="marca" name="marca" placeholder="Terex" [(ngModel)]='form.marca'>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <button [disabled]="!form.marca" class="btn btn-sm btn-primary" (click)='agregarMarca()'>Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Nueva Proveedor</strong>
+                            </div>
+                            <form method="post">
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="form-group col-sm-4">
+                                            <label for="nombre">Nombre</label>
+                                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Manuel Antonio" [(ngModel)]='form.nombre'
+                                                value='{{form.nombre}}'>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="telefono">Teléfono</label>
+                                            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="777-158-74-54" [(ngModel)]='form.telefono'
+                                                value='{{form.telefono}}'>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="email">Email</label>
+                                            <input type="text" class="form-control" id="email" name="email" placeholder="mrosetea@hotmail.com" [(ngModel)]='form.email'
+                                                value='{{form.email}}'>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-4">
+                                            <label for="idioma">Idioma</label>
+                                            <select class="form-control" id="idioma" name="idioma" [(ngModel)]='form.idioma'>
+                                                      <option [selected]="form.idioma==='Español'">Español</option>
+                                                      <option  [selected]="form.idioma==='Inglés'">Inglés</option>
+                                                  </select>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox" name="iva" value="true">IVA</label>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="pago">Método de pago</label>
+                                            <select class="form-control" id="pago" name="pago" [(ngModel)]='form.pago'>
+                                                          <option [selected]="form.pago==='Tarjeta'" >Tarjeta</option>
+                                                          <option [selected]="form.pago==='Efectivo'">Efectivo</option>
+                                                          <option [selected]="form.pago==='Transferencia'">Transferencia</option>
+                                                          <option [selected]="form.pago==='Western Union'">Western Union</option>
+                                                          <option [selected]="form.pago==='PayPal'">Paypal</option>
+                                                          
+                                                        </select>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-4">
+                                            <div class="checkbox">
+                                                <label for="pago">Comentarios</label>
+                                                <input type='text' class="form-control" placeholder="Este proveedor habla espeñol" name='comentario' [(ngModel)]='form.comentario'
+                                                    value='{{form.comentario}}'>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="pago">Página web</label>
+                                            <input type='text' class="form-control" placeholder="www.repase.mx" name='pagina' [(ngModel)]='form.pagina' value='{{form.paginaWeb}}'>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="marcas">Marcas</label>
+                                            <select multiple class="form-control" (change)="setSelected($event.target)" name='marcas' [(ngModel)]='form.marcas'>
+                                                <option *ngFor="let marca of marcas" value="{{marca._id}}">{{marca.nombre}}</option>
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class='row'>
+                                        <div class="form-group col-sm-4">
+                                            <label for="moneda">Moneda</label>
+                                            <select class="form-control" id="moneda" name="moneda" [(ngModel)]='form.moneda'>
+                                                <option [selected]="form.moneda==='Euro(EUR)'" >Euro(EUR)</option>
+                                                <option [selected]="form.moneda==='Peso(MXN)'">Peso(MXN)</option>
+                                                <option [selected]="form.moneda==='Dólar(USD)'">Dólar(USD)</option>
+                                            </select>
+
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <label for="empresa">Empresa</label>
+                                            <input type="text" class="form-control" name="empresa" [(ngModel)]='form.empresa' placeholder="Repase" value="{{form.empresa}}"
+                                            />
+                                        </div>
+
+
+                                    </div>
+                                    <div class="card-footer" *ngIf="showBoton===false">
+                                        <button [disabled]="!form.nombre" type="button" class="btn btn-sm btn-primary" id="submit" (click)='guardarProveedor()'><i class="fa fa-dot-circle-o"></i> Registrar</button>
+                                    </div>
+                                    <div class="card-footer" *ngIf='showBoton===true'>
+                                        <button type="button" class="btn btn-sm btn-primary" id="submit" (click)='actualizarProveedor()'><i class="fa fa-dot-circle-o"></i> Actualizar</button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--/.col-->
+
+                </div>
+                <div class="col-sm-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Telefono</th>
+                                <th>Email</th>
+                                <th>Empresa</th>
+                                <th>Detalle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor='let proveedor of proveedores'>
+                                <td>{{proveedor.nombre}}</td>
+                                <td>{{proveedor.telefono}}</td>
+                                <td>{{proveedor.email}}</td>
+                                <td>{{proveedor.empresa}}</td>
+                                <td><button [routerLink]="['/proveedor',proveedor._id]" class="btn btn-primary">Ver proveedor</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

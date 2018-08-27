@@ -1,0 +1,145 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Requisición</strong>
+  </div>
+  <form method="post" id='formulario'>
+    <input type="hidden" name="id" value=" {{requisicion._id}} " />
+    <div class="card-block">
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <label for="cliente">Cliente</label>
+          <select name="cliente" class="form-control" (change)="verCliente($event.target.value)">
+              <option [selected]='cliente._id===requisicion.cliente._id' *ngFor='let cliente of clientes' value="{{cliente._id}}">{{cliente.nombre}}</option>
+          </select>
+        </div>
+        <div class="form-group col-sm-4">
+          <label for="telefono">Telefono</label>
+          <input disabled type="text" class="form-control" id="telefono" name="telefono" placeholder="777-146-42-54" value="{{requisicion.cliente.telefono}}"
+          />
+        </div>
+        <div class="form-group col-sm-4">
+          <label for="email">E-mail</label>
+          <input disabled type="text" class="form-control" id="email" name="email" placeholder="mrosete-a@hotmail.com" value="{{requisicion.cliente.email}}"
+          />
+        </div>
+      </div>
+      <div class="row">
+
+
+        <div class="form-group col-sm-4">
+          <label for="empresa">Empresa</label>
+          <input disabled type="text" class="form-control" id="empresa" name="empresa" placeholder="REPASE" value="{{requisicion.cliente.empresa}}"
+          />
+        </div>
+        <div class="form-group col-sm-4">
+          <label for="rfc">RFC</label>
+          <input disabled type="text" class="form-control" id="rfc" name="rfc" placeholder="RAOM452214AC4" value="{{requisicion.cliente.rfc}}"
+          />
+        </div>
+
+
+
+      </div>
+      <div class="row">
+
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <label for="calle">Calle</label>
+          <input disabled type="text" class="form-control" name="calle" id="calle" placeholder="Navarra" value="{{requisicion.cliente.direccion.calle}}"
+          />
+        </div>
+        <div class="form-group col-sm-4">
+          <label for="numeroInterior">Número Interior</label>
+          <input disabled type="text" class="form-control" name="numeroInterior" id="numeroInterior" placeholder="#46" value="{{requisicion.cliente.direccion.nInterior}} "
+          />
+        </div>
+        <div class="form-group col-sm-4">
+          <label for="numeroExterior">Número exterior</label>
+          <input disabled type="text" class="form-control" name="numeroExterior" id="numeroExterior" placeholder="#4" value="{{requisicion.cliente.direccion.nExterior}}"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-3">
+          <label for="colonia">Colonia</label>
+          <input disabled type="text" class="form-control" name="colonia" id="colonia" placeholder="El castillo" value="{{requisicion.cliente.direccion.colonia}}"
+          />
+        </div>
+        <div class="form-group col-sm-3">
+          <label for="municipio">Municipio</label>
+          <input disabled type="text" class="form-control" name="municipio" id="municipio" placeholder="E. Zapata" value="{{requisicion.cliente.direccion.municipio}}"
+          />
+        </div>
+        <div class="form-group col-sm-3">
+          <label for="estado">Estado</label>
+          <input disabled type="text" class="form-control" name="estado" id="estado" placeholder="Morelos" value="{{requisicion.cliente.direccion.estado}}"
+          />
+        </div>
+        <div class="form-group col-sm-3">
+          <label for="codigoPostal">Código Postal</label>
+          <input disabled type="text" class="form-control" name="codigoPostal" id="codigoPostal" placeholder="62756" value="{{requisicion.cliente.direccion.cPostal}}"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-6">
+          <label for="vendedor"></label>
+          <select id="usuario" name="usuario" class="form-control" >
+             <option [selected]='vendedor._id===requisicion.usuario._id' *ngFor='let vendedor of vendedores' value="{{vendedor._id}}">{{vendedor.nombre}} {{vendedor.apellidos}}</option>
+          </select>
+        </div>
+        <div class="form-group col-sm-6">
+          <label for="comentarios">Comentarios</label>
+          <textarea type="comentarios" class="form-control" name="comentarios" id="comentarios" [(ngModel)]='requisicion.comentarios'> </textarea>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="piezas" class="card">
+      <div class="card-header">
+        <strong>Piezas</strong>
+      </div>
+
+      <div class="card-block hr-style" *ngFor='let pieza of requisicion.piezas'>
+        <div class='row'>
+          <div class="form-group col-sm-3">
+            <label># de Pieza</label>
+            <input type="text" class="form-control" value="{{pieza.pieza.noPieza}}" name='{{pieza._id}}_noPieza' disabled/>
+          </div>
+          <div class="form-group col-sm-2">
+            <label>Modelo</label>
+            <input type="text" class="form-control" value="{{pieza.pieza.modelo}}" name='{{pieza._id}}_modelo' disabled/>
+          </div>
+          <div class="form-group col-sm-2">
+            <label>Marca</label>
+            <input type="text" class="form-control" value="{{pieza.pieza.marca.nombre}}" name='{{pieza._id}}_marca' disabled/>
+          </div>
+          <div class="form-group col-sm-2">
+            <label>Descripción</label>
+            <input type="text" class="form-control" value="{{pieza.pieza.descripcion}}" name='{{pieza._id}}_descripcion' disabled />
+          </div>
+          <div class="form-group col-sm-1">
+            <label>Cantidad</label>
+            <input type="number" class="form-control" value="{{pieza.cantidad}}" name="{{pieza._id}}_cantidad"  [(ngModel)]='pieza.cantidad'
+            />
+          </div>
+          <div class="form-group col-sm-2">
+            <label for=""></label>
+            <button type="button" id="eliminar" class="btn btn-sm btn-primary" id="eliminar" (click)='eliminar(pieza)'><i class="fa fa-dot-circle-o"></i> Eliminar</button>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    <div class="card-footer">
+      <button type="button" id="guardar" class="btn btn-sm btn-primary" id="submit" (click)='addPieza()'><i class="fa fa-dot-circle-o"></i> Agregar Pieza</button>
+    </div>
+    
+  </form>
+  <div class="card-footer">
+    <button type="button" id="guardar" class="btn btn-sm btn-primary" id="submit" (click)='guardar()'><i class="fa fa-dot-circle-o"></i>Guardar </button>
+  </div>
+</div>

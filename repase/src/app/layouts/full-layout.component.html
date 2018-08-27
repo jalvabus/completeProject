@@ -1,0 +1,76 @@
+<header class="app-header navbar">
+    <button class="navbar-toggler mobile-sidebar-toggler hidden-lg-up" type="button">&#9776;</button>
+    <a href="#"><img src='../../assets/img/logo.png' width="60px" style="text-align: center;"> </a>
+    <ul class="nav navbar-nav hidden-md-down">
+        <li class="nav-item">
+            <a class="nav-link navbar-toggler sidebar-toggler" href="#">&#9776;</a>
+        </li>
+    </ul>
+</header>
+
+<div class="app-body">
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']"><i class="icon-speedometer"></i> Inicio </a>
+                </li>
+                <li class="nav-item" *ngIf="usuario.rol==='A'">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/usuario']"><i class="icon-speedometer"></i> Usuarios </a>
+                </li>
+                <li class="nav-item" *ngIf="usuario.rol==='A'">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/marca']"><i class="icon-speedometer"></i> Marcas </a>
+                </li>
+                <li class="nav-item" *ngIf="usuario.rol==='A'">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/pieza']"><i class="icon-speedometer"></i> Piezas </a>
+                </li>
+                <li class="nav-item" *ngIf="usuario.rol==='A'">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/proveedores']"><i class="icon-speedometer"></i> Proveedores </a>
+                </li>
+                <li class="nav-item" *ngIf="usuario.rol==='A' || usuario.rol==='C'  ">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/cliente']"><i class="icon-speedometer"></i> Clientes </a>
+                </li>
+
+                <li class="nav-item" *ngIf="usuario.rol==='C'">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/requisicionEntrada']"><i class="icon-speedometer"></i> Nueva Requisición </a>
+                </li>
+                <li class="nav-item" *ngIf="usuario.rol==='C'">
+                        <a class="nav-link" routerLinkActive="active" [routerLink]="['/requisicionesCapt']"><i class="icon-speedometer"></i> Requisiciones </a>
+                    </li>
+                
+                <li class="nav-item" *ngIf="usuario.rol==='V'">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/requisiciones']"><i class="icon-speedometer"></i> Requisiciones </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/historial']"><i class="icon-speedometer"></i> Historial </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLinkActive="active" [routerLink]="['/editarUsuario']"><i class="icon-speedometer"></i> Perfil </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)='cerrarSesion()'><i class="icon-speedometer"></i> Cerrar sesión </a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <main class="main">
+
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb">
+            <breadcrumbs></breadcrumbs>
+        </ol>
+
+        <div class="container-fluid">
+            <router-outlet></router-outlet>
+        </div>
+        <!-- /.conainer-fluid -->
+    </main>
+</div>
+
+<footer class="app-footer">
+    <a href="http://www.repase.mx">Repase</a> &copy; 2017.
+    
+</footer>

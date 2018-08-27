@@ -24,28 +24,13 @@
 </head>
 
 <body ng-controller="obraController">
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">
-                    <span>App</span>Contratistas</a>
-            </div>
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
     <% include ../partials/navegacion.ejs %>
         <!--/.sidebar-->
 
         <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
             <div class="row">
                 <ol class="breadcrumb">
-                    <li class="">Inicio</li>
+                    <li class=""><a href="/obras">Inicio</a></li>
                     <li class="active">Obras</li>
                 </ol>
             </div>
@@ -86,7 +71,7 @@
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="form-group">
                                         <label for="name">Cuenta Bancaria</label>
-                                        
+
                                         <select name="" id="" class="form-control" ng-options="cuentaBancaria as cuentaBancaria.noCuenta for cuentaBancaria in cuentasBancarias"
                                             ng-model="obra.cuentaBancaria">
                                             <option value=""></option>
@@ -160,7 +145,6 @@
                                         <th>Anticipo</th>
                                         <th>Fecha Inicio</th>
                                         <th>Fecha Limite</th>
-                                        <th>Caja chica</th>
                                     </tr>
                                 </thead>
                                 <tbody ng-if="obras.length > 0">
@@ -168,13 +152,10 @@
                                         <td>
                                             <a href="/detalleObra/{{ obra._id }}">{{ obra.nombre }}</a>
                                         </td>
-                                        <td>$ {{ obra.precio_contrato }}</td>
-                                        <td>$ {{ obra.porcentaje_anticipo }}</td>
+                                        <td>$ {{ obra.precio_contrato | number }}</td>
+                                        <td>% {{ obra.porcentaje_anticipo | number }}</td>
                                         <td>{{ obra.fecha_inicio | date }}</td>
                                         <td>{{ obra.fecha_limite | date }}</td>
-                                        <td>
-                                            <a href="/cajachica/{{ obra._id }}">Ver</a>
-                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

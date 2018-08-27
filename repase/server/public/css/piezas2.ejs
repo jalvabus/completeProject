@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Repase</title>
+    <link href="/images/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    <link rel="stylesheet" href="/css/piezas2.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <style>
+        .cards {
+            position: relative;
+            list-style-type: none;
+            padding: 0;
+            max-width: 34em;
+            margin: 20% auto 0;
+        }
+
+        .cardHeader {
+            z-index: 2;
+            padding: 10px;
+            float: right;
+
+
+        }
+
+        .card--next {
+            z-index: 5;
+            transform: translateY(-25px) rotate(4deg) translateX(25px) scale(1);
+        }
+
+        .card--out {
+            animation: card-out 0.6s cubic-bezier(.8, .2, .1, 0.8);
+            transform: translateY(-50px) rotate(8deg) translateX(55px) scale(0.95);
+            z-index: 1;
+            background: #bbb;
+        }
+
+        @keyframes card-out {
+            0% {
+                z-index: 20;
+                transform: translateY(0px) rotate(-4deg);
+            }
+            50% {
+                transform: translateY(-120%) rotate(-5deg) translateX(-40px);
+            }
+            80% {
+                z-index: 1;
+            }
+            100% {
+                transform: translateY(-50px) rotate(8deg) translateX(55px) scale(0.95);
+            }
+        }
+
+        .card--current {
+            cursor: auto;
+            user-select: auto;
+            position: relative;
+            z-index: 10;
+            opacity: 1;
+            background: #EEE;
+            transform: rotate(-1deg) translateX(0%) scale(1);
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            padding: 40px;
+            background: #eeeeee;
+        }
+
+        .wrapped {
+
+            width: 95%;
+            margin: 20px auto;
+
+
+        }
+
+        .header {
+            margin: 5px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+
+
+
+        <div class="wrapped">
+            <div class="header">
+
+                <div style="float: left;">
+                    <img src="/images/logo.png" alt="logo">
+                </div>
+                <div class="cardHeader">
+                    <h2>Información personal:</h2>
+                    <h3>Nombre:
+                        <%=requisicion.cliente.nombre%> &nbsp &nbsp Telefono:
+                            <%=requisicion.cliente.telefono%>
+                                <br> Correo electrónico:
+                                <%=requisicion.cliente.email%>
+                    </h3>
+                    <h2>
+                        Total piezas:
+                        <%=requisicion.piezas.length%>
+                            <br>
+
+                    </h2>
+
+                    <!-- end .header-content -->
+                </div>
+                <!-- end .header-wrap -->
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="row">
+
+        <%requisicion.piezas.forEach(function(pieza,i){%>
+            <div class="col-6">
+            
+                <div class="content1">
+                    <h2>Pieza <%=i+1%>:
+                            <%=pieza.pieza.noPieza%></h2>
+                </div>
+                <div class="content2">
+                    <div class="content2-header1">
+                        <p>Marca
+                            <span> <%=pieza.pieza.marca.nombre%></span>
+                        </p>
+                    </div>
+                    <div class="content2-header1">
+                        <p>Modelo
+                            <span><%=pieza.pieza.modelo%></span>
+                        </p>
+                    </div>
+                   
+                    <div class="content2-header1">
+                        <p>Paquetería
+                            <span><%=pieza.paqueteria%></span>
+                        </p>
+                    </div>
+
+                    <div class="content2-header1">
+                        <p>Guía
+                            <span><%=pieza.guia%></span>
+                        </p>
+                    </div>
+                    
+                    <div class="clear"></div>
+                </div>
+                <div class="content3">
+                    <div class="shipment">
+                        <div class="confirm">
+                            <div class="imgcircle" style='background: #edc833;' >
+                                <img src="images/confirm.png" alt="confirm order">
+                            </div>
+                            <span class="line"></span>
+                            <p>En fábrica</p>
+                        </div>
+                        <div class="process">
+                            <div class="imgcircle" <%if(pieza.status!="En fábrica"  ){%>style='background: #edc833;' <%}%>>
+                                <img src="images/process.png" alt="process order">
+                            </div>
+                            <span class="line"></span>
+                            <p>En aduana</p>
+                        </div>
+                        <div class="quality">
+                            <div class="imgcircle" <%if(pieza.status!="En fábrica" && pieza.status!="En aduana"){%>style='background: #edc833;' <%}%>>
+                                <img src="images/quality.png" alt="quality check">
+                            </div>
+                            <span class="line"></span>
+                            <p>Almacén</p>
+                        </div>
+                        <div class="dispatch">
+                            <div class="imgcircle" <%if(pieza.status!="En fábrica" && pieza.status!="En aduana"  && pieza.status!="Almacén"){%>style='background: #edc833;' <%}%>>
+                                <img src="images/dispatch.png" alt="dispatch product">
+                            </div>
+                            <span class="line"></span>
+                            <p>En transito</p>
+                        </div>
+                        <div class="delivery">
+                            <div class="imgcircle" <%if(pieza.status=="Entregado"){%>style='background: #edc833;' <%}%>>
+                                <img src="images/delivery.png" alt="delivery">
+                            </div>
+                            <p>Entregado</p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                <div class="content1">
+                    
+                        <h6>Comentarios: 
+                            <%=pieza.comentarios%>
+                        </h6>
+                    
+                </div>  
+            </div>
+        </div>
+           
+
+            <%})%>
+    </div>
+
+    </div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+<script src="/js/cards.js"></script>
+
+</html>

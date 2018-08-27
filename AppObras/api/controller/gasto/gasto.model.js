@@ -7,7 +7,7 @@ var gasto_schema = new Schema({
     proveedor: String,
     monto: Number,
     obra: { type: Schema.Types.ObjectId, ref: 'Obra' },
-    
+    fecha: Date
 },
 {
   timestamps: true

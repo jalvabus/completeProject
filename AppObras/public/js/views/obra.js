@@ -11,8 +11,6 @@ var scotchTodo = angular.module('obraApp', [])
         // when submitting the add form, send the text to the node API
         $scope.guardarObra = function () {
 
-            console.log($scope.obra);
-
             var formData = new FormData();
 
             formData.append('nombre', $scope.obra.nombre);
@@ -28,29 +26,33 @@ var scotchTodo = angular.module('obraApp', [])
 
             formData.append('file', file);
 
-            console.log(formData);
-
             $.ajax({
                 url: '/api/obra',
                 type: 'POST',
                 data: formData,
                 success: function (data) {
-                    alert(data)
+                    console.log(data);
+                    $scope.obra = {};
+                    $scope.obras.push(data);
+                    $scope.getObras();
                 },
                 cache: false,
                 contentType: false,
                 processData: false
             });
+            scope.getObras();
         };
 
-        $http({
-            method: 'GET',
-            url: '/api/obra'
-        }).then(function successCallback(response) {
-            console.log(response);
-            $scope.obras = response.data;
-        }, function errorCallback(response) {
-        });
+        $scope.getObras = function () {
+            $http({
+                method: 'GET',
+                url: '/api/obra'
+            }).then(function successCallback(response) {
+                console.log(response);
+                $scope.obras = response.data;
+            }, function errorCallback(response) {
+            });
+        }
 
         $http({
             method: 'GET',
@@ -67,5 +69,7 @@ var scotchTodo = angular.module('obraApp', [])
             $scope.administradores = response.data.usuarios;
         }, function errorCallback(response) {
         });
+
+        $scope.getObras();
 
     });

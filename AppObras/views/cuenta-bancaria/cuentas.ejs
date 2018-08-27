@@ -24,21 +24,7 @@
 </head>
 
 <body ng-controller="cuentasController">
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">
-                    <span>App</span>Contratistas</a>
-            </div>
-        </div>
-        <!-- /.container-fluid -->
-    </nav>
+
     <% include ../partials/navegacion.ejs %>
         <!--/.sidebar-->
 
@@ -64,31 +50,34 @@
                             Registrar Cuenta Bancaria
                         </div>
                         <div class="panel-body">
-                            <div class="container row">
-                                <div class="form-group row">
-                                    <label class="col-md-12 form-control-label" for="text-input"># de Cuenta</label>
-                                    <div class="col-md-5">
-                                        <input type="text" id="text-input" class="form-control" ng-model="cuentaBancaria.noCuenta" id="noCuenta" name="noCuenta"
-                                            placeholder="# de Cuenta" />
+                            <form action="/api/cuentaBancaria" method="POST">
+                                <div class="container row">
+                                    <div class="form-group row">
+                                        <label class="col-md-12 form-control-label" for="text-input"># de Cuenta</label>
+                                        <div class="col-md-5">
+                                            <input type="text" id="text-input" class="form-control" ng-model="cuentaBancaria.noCuenta" id="noCuenta" name="noCuenta"
+                                                placeholder="# de Cuenta" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-12 form-control-label" for="text-input">Banco</label>
+                                        <div class="col-md-5">
+                                            <select class="form-control" ng-model="cuentaBancaria.banco" id="banco" name="banco">
+                                                <option value="0">Seleccionar...</option>
+                                                <option value="Santander">Santander</option>
+                                                <option value="Banamex">Banamex</option>
+                                                <option value="Bancomer">Bancomer</option>
+                                                <option value="HSBC">HSBC</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            <i class="fa fa-dot-circle-o"></i> Guardar</button>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-md-12 form-control-label" for="text-input">Banco</label>
-                                    <div class="col-md-5">
-                                        <select class="form-control" ng-model="cuentaBancaria.banco" id="banco" name="banco">
-                                            <option value="0">Seleccionar...</option>
-                                            <option>Santander</option>
-                                            <option>Banamex</option>
-                                            <option>Bancomer</option>
-                                            <option>HSBC</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <button ng-click="guardarCuenta()" type="button" class="btn btn-sm btn-primary">
-                                        <i class="fa fa-dot-circle-o"></i> Guardar</button>
-                                </div>
-                            </div>
+                            </form>
+
                         </div>
                     </div>
                 </div>

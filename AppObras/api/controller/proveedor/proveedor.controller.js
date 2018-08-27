@@ -2,12 +2,19 @@ var Proveedor = require('./proveedor.model');
 var Gasto = require('../gasto/gasto.model');
 
 exports.verProveedores = (req, res) => {
+
+    var query = Proveedor.find();
+    query.exec().then((proveedor) => {
+        res.json(proveedor)
+    })
+    /*
     Gasto.find()       
         .distinct('proveedor')
         .exec()
         .then((proveedores) => {
             res.json(proveedores);
         })
+        */
 }
 
 exports.verProveedor = (req, res) => {

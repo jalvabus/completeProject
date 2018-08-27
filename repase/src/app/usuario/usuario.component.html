@@ -1,0 +1,56 @@
+<div class="col-sm-12">
+  <div class="card">
+    <div class="card-header">
+      <strong>Nuevo Usuario</strong>
+    </div>
+    <form method="post">
+      <div class="card-block">
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <label for="nombre">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Manuel Antonio" [(ngModel)]='form.nombre'>
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="nombre">Apellidos</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Rosete Alcántar" [(ngModel)]='form.apellidos'>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" name="email" placeholder="mrosetea@hotmail.com" [(ngModel)]='form.email.email'
+             >
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="email">Password</label>
+            <input type="password" class="form-control" id="passE" name="passE" [(ngModel)]='form.email.pass' />
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-4">
+            <label for="rol">Rol</label>
+            <select class="form-control" id="rol" name="rol" [(ngModel)]='form.rol'>
+                                  <option value="A">Administrador</option>
+                                  <option value="C">Capturista</option>
+                                  <option value="V">Vendedor</option>
+                              </select>
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="email">Usuario</label>
+            <input type="text" class="form-control" id="usuario" name="usuario" [(ngModel)]='form.usuario' />
+
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="pass">Password</label>
+            <input type="password" class="form-control" id="pass" name="pass" [(ngModel)]='form.pass' />
+          </div>
+        </div>
+
+      </div>
+      <div class="card-footer">
+        <button [disabled]="!form.nombre" type="button" class="btn btn-sm btn-primary" id="submit" (click)='registrar()'><i class="fa fa-dot-circle-o"></i> Registrar</button>
+      </div>
+
+    </form>
+  </div>
+</div>

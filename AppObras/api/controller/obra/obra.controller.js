@@ -4,26 +4,49 @@ var Proveedor = require('../proveedor/proveedor.model');
 var CuentaBancaria = require('../cuenta-bancaria/cuenta-bancaria.model');
 var CajaChica = require('../caja-chica/caja-chica.model');
 
-exports.verTodas = (req, res) => {
-    var query = Obra.find();
-    query.exec().then((obras) => {
-        res.json(obras);
-    });
-}
+var Insumo = require('../materiales/insumos.model');
 
 var fs = require('fs');
 var XLSX = require('xlsx');
 var path = require('path');
 
-exports.registrarObra = (req, res) => {
-    console.log('Registrar Obra');
-    console.log(req.body);
+exports.verTodas = (req, res) => {
+    var query = Obra.find().populate({
+        path: 'gastos',
+        model: 'Gasto'/*,
+        populate: [{
+            path: 'concepto',
+            model: 'Concepto'
+        }, {
+            path: 'proveedor',
+            model: 'Proveedor'
+        }]*/
+    }).populate({
+        path: 'estimaciones.cuentaBancaria',
+        model: 'CuentaBancaria',
+        populate: {
+            path: 'cuentaBancaria.gastos',
+            model: 'Gasto'
+        }
+    })
+        .populate({
+            path: 'caja_chica',
+            model: 'CajaChica'
+        })
+        .populate({
+            path: 'administrador',
+            model: 'Usuario'
+        });
+    query.exec().then((obras) => {
+        res.json(obras);
+    });
+}
 
+exports.registrarObra = (req, res) => {
 
     var cajaChica = new CajaChica({
         administrador: req.body.administrador
     });
-
 
     cajaChica.save()
         .then((cajaChicaGuardada) => {
@@ -49,20 +72,33 @@ exports.registrarObra = (req, res) => {
                     var filename = file.originalname;
                     fs.rename(file.path, "uploads/" + filename, (err) => {
                         if (err) throw err;
-                        console.log(filename);
 
                         var workbook = XLSX.readFile(path.join(__dirname, '../../../uploads/' + filename))
                         var sheet_name_list = workbook.SheetNames;
                         var xlData = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]]);
 
+                        var insumos = [];
+
                         xlData.forEach(function (data, i) {
-                            console.log(data);
+
+                            insumos.push({
+                                insumo: data.Material,
+                                importe: data.Importe
+                            });
+
                             obra.insumos.push({
                                 insumo: data.Material,
                                 importe: data.Importe
                             });
+
                             if (i == (xlData.length - 1)) {
-                                console.log('Direcciona');
+                                Insumo.collection.insert(insumos, (err, insertado) => {
+                                    if (err) {
+                                        return console.error(err);
+                                    } else {
+                                        console.log("Multiple documents inserted to Collection");
+                                    }
+                                })
                                 obra.save();
                                 res.json(obra);
                             }
@@ -107,18 +143,15 @@ exports.obtenerObra = (req, res) => {
     var query = Obra.findById(req.params.id)
         .populate({
             path: 'gastos',
-            model: 'Gasto'/*,
-            populate: [{
-                path: 'concepto',
-                model: 'Concepto'
-            }, {
-                path: 'proveedor',
-                model: 'Proveedor'
-            }]*/
+            model: 'Gasto'
         })
         .populate({
             path: 'estimaciones.cuentaBancaria',
-            model: 'CuentaBancaria'
+            model: 'CuentaBancaria',
+            populate: {
+                path: 'cuentaBancaria.gastos',
+                model: 'Gasto'
+            }
         })
         .populate({
             path: 'caja_chica',

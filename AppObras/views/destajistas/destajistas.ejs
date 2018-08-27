@@ -1,12 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="reportesApp">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+    <!--Custom Font-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <script src="js/public/jquery.js"></script>
+    <script src="js/public/angular.js"></script>
+    <script src="js/public/sweet.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/fileinput.min.js"></script>
 </head>
-<body>
-    
+
+<body ng-controller="reportesController">
+    <% include ../partials/navegacion.ejs %>
+        <!--/.sidebar-->
+
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li class="">
+                        <a href="/obras">Inicio</a>
+                    </li>
+                    <li class="active">Destajistas</li>
+                </ol>
+            </div>
+            <!--/.row-->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Destajistas</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Filtrar por Obra
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="name">Obras</label>
+                                        <select name="obra" id="obra" ng-model="reporte.obra" class="form-control">
+                                            <option ng-repeat="obra in obras" value="{{ obra }}">{{ obra.nombre }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <button ng-click="verReporte()" type="button" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-dot-circle-o"></i> Ver Historial</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Historial de destajistas
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Obra</th>
+                                        <th>Nombre</th>
+                                        <th>Fecha</th>
+                                        <th>Destajo</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="usuario in usuarios">
+                                        <td>{{ usuario.nombre }}</td>
+                                        <td>{{ usuario.apellidos }}</td>
+                                        <td>{{ usuario.correo_electronico }}</td>
+                                        <td>{{ usuario.usuario }}</td>
+                                        <td>{{ usuario.rol }}</td>
+                                        <td>
+                                            <button class="btn btn-success">Cambiar contraseña</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--/.main-->
+
+        <script src="js/public/bootstrap.min.js"></script>
+        <script src="js/public/chart.min.js"></script>
+        <script src="js/public/chart-data.js"></script>
+        <script src="js/public/easypiechart.js"></script>
+        <script src="js/public/easypiechart-data.js"></script>
+        <script src="js/public/bootstrap-datepicker.js"></script>
+        <script src="js/public/custom.js"></script>
+
+        <script src="js/views/reportes.js"></script>
 </body>
+
 </html>

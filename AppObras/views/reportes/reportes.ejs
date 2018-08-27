@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="reportesApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- optionally if you need a theme like font awesome theme you can include it as mentioned below -->
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+
+    <!--Custom Font-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <script src="js/public/jquery.js"></script>
+    <script src="js/public/angular.js"></script>
+    <script src="js/public/sweet.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.9/js/fileinput.min.js"></script>
+</head>
+
+<body ng-controller="reportesController">
+    <% include ../partials/navegacion.ejs %>
+        <!--/.sidebar-->
+
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li class="">
+                        <a href="/obras">Inicio</a>
+                    </li>
+                    <li class="active">Reportes</li>
+                </ol>
+            </div>
+            <!--/.row-->
+
+            <div class="row" style="padding-top: 25px">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Filtrar Reportes
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="obra-form">Obras</label>
+                                        <select id="obra-form" name="obra-form" class="form-control" size="1" ng-model="form.obra_form" ng-change="setObra();">
+                                            <option ng-selected="true" value="0" selected>Seleccionar...</option>
+                                            <option ng-repeat="obra in obras" value="{{obra._id}}">{{obra.nombre}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div ng-if="obraSeleccionada.estimaciones">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="estimacion">Estimación</label>
+                                            <select id="estimacion" name="estimacion" class="form-control" size="1" ng-model="estimacionSeleccionada._id">
+                                                <option value="0">Seleccionar...</option>
+                                                <option ng-repeat="estimacion in obraSeleccionada.estimaciones" value="{{estimacion._id}}">{{estimacion.nombre}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <button type="button" ng-click="setEstimacion()" class="btn btn-sm btn-primary">
+                                                <i class="fa fa-dot-circle-o"></i> Visualizar Estimaciones</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12"></div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="proveedor">Proveedor</label>
+                                            <select id="proveedor" name="proveedor" class="form-control" size="1" ng-model="gastosBusqueda.proveedor">
+                                                <option ng-repeat="proveedor in proveedores" value="{{proveedor.nombre}}">{{proveedor.nombre}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <label for="material">Material</label>
+                                            <input autocomplete="off" type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Descripción"
+                                                ng-model="gastosBusqueda.descripcion" ng-keyup="complete(gastosBusqueda.descripcion)">
+                                            <ul class="list-group" ng-if="hideThis">
+                                                <li class="list-group-item" ng-repeat="descripcion in filterMateriales" ng-click="fillTextMaterial(descripcion)">{{ descripcion.insumo }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="fecha_inicio">Fecha Inicio</label>
+                                            <input type="date" class="form-control" id="fecha_inicio" ng-model="gastosBusqueda.createdAt.$lte">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label for="fecha_limite">Fecha Límite</label>
+                                            <input type="date" class="form-control" id="fecha_limite" ng-model="gastosBusqueda.createdAt.$gte">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <button type="button" ng-click="viewReport()" class="btn btn-sm btn-primary">
+                                            <i class="fa fa-dot-circle-o"></i> Visualizar Reportes Por Gastos</button>
+                                        <button type="button" ng-click="reload()" class="btn btn-sm btn-danger">
+                                            <i class="fa fa-dot-circle-o"></i> Reiniciar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="gastos && gastos.length > 0">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Reporte
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Descripción</th>
+                                        <th>Fecha</th>
+                                        <th>Proveedor</th>
+                                        <th>Monto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="x in gastos">
+                                        <td>{{ x.descripcion }}</td>
+                                        <td>{{ x.createdAt | date }}</td>
+                                        <td>{{ x.proveedor }}</td>
+                                        <td>${{ x.monto | number }} </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Total Estimación: </td>
+                                        <td>${{ estimacionSeleccionada.total | number }} </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Total Gastos: </td>
+                                        <td>${{ totalGastos | number }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Utilidad: </td>
+                                        <td>${{ estimacionSeleccionada.total - totalGastos | number }} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-primary" ng-click="gastosCero()">Regresar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-if="verTabla">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Todas los Reportes
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre Estimacion</th>
+                                        <th>Total Estimacion</th>
+                                        <th>Total Gastos</th>
+                                        <th>Utilidad</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="obra in obraSeleccionada.estimaciones">
+                                        <td>{{ obra.nombre }}</td>
+                                        <td>$ {{ obra.total | number }}</td>
+                                        <td>$ {{ obra.totalGatos | number }}</td>
+                                        <td>$ {{ obra.total - obra.totalGatos | number }}</td>
+                                        <td>
+                                            <button class="btn btn-info btn-sm" ng-click="getEstimacion(obra)">Detalles estimacion</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12" ng-if="seeEstimacion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <strong> {{ estimacion.nombre }} </strong>
+                            <small>{{ estimacion.fecha_inicio | date}} - {{ estimacion.fecha_limite | date }}</small>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Depositos</th>
+                                        <th>Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="details in estimacion.cuentaBancaria.depositos">
+                                        <td>{{ details.concepto }}</td>
+                                        <td>$ {{ details.monto | number }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total</th>
+                                        <td>$ {{ estimacion.totalDepositos | number }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Gastos</th>
+                                        <th>Proveedor</th>
+                                        <th>Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="details in estimacion.cuentaBancaria.gasto">
+                                        <td>{{ details.concepto }}</td>
+                                        <td>{{ details.proveedor }}</td>
+                                        <td>$ {{ details.monto | number }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="2">Total</th>
+                                        <td>$ {{ estimacion.totalGatos | number }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="col-sm-12">
+                                <button class="btn btn-sm btn-primary" ng-click="hide()">Regresar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--/.main-->
+
+        <script src="js/public/bootstrap.min.js"></script>
+        <script src="js/public/chart.min.js"></script>
+        <script src="js/public/chart-data.js"></script>
+        <script src="js/public/easypiechart.js"></script>
+        <script src="js/public/easypiechart-data.js"></script>
+        <script src="js/public/bootstrap-datepicker.js"></script>
+        <script src="js/public/custom.js"></script>
+
+        <script src="js/views/reportes.js"></script>
+</body>
+
+</html>

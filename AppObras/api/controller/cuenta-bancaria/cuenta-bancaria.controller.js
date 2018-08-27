@@ -2,13 +2,15 @@ var CuentaBancaria = require('./cuenta-bancaria.model');
 var Deposito = require('./deposito.model');
 
 exports.registrarCuentaBancaria = function (req, res) {
+    console.log(req.body);
     var cuenta = new CuentaBancaria({
         noCuenta: req.body.noCuenta,
         banco: req.body.banco
     });
 
     cuenta.save().then((respuesta) => {
-        res.json(respuesta);
+        // res.json(respuesta);
+        res.redirect('/cuenta-bancaria');
     });
 }
 
@@ -38,7 +40,7 @@ exports.modificarCuentaBancaria = (req, res) => {
         .exec()
         .then((cuenta) => {
             cuenta.noCuenta = req.body.noCuenta;
-            cuenta.banco = req.body.noCuenta;
+            cuenta.banco = req.body.cuenta;
             cuenta.save().then((respuesta) => { res.json(respuesta); })
         })
 }
